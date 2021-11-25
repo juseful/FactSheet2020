@@ -170,10 +170,10 @@ fig, ax = plt.subplots(figsize=(12, 11))#,linewidth=2) # 캔버스 배경 사이
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 # rects1 = ax.bar(x - width-0.17 , value01, width, label=label1,color='lightslategray') RdYlBu
-rects1 = ax.bar(x - width-0.15, value01, width, label=label1, color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
-rects2 = ax.bar(x - width+0.1 , value02, width, label=label2, color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
-rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
-rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+rects1 = ax.bar(x - width-0.15, value01, width, label=label1, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
+rects2 = ax.bar(x - width+0.1 , value02, width, label=label2, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
+rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
 ax.set_title('PSA 결과 분포(2020년)\n',fontsize=30)
@@ -243,16 +243,16 @@ fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 
 rects1 = ax.bar(labels, value01, wCDWth, label=label1
-                  ,color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
 rects2 = ax.bar(labels, value02, wCDWth, label=label2
                   ,bottom=value01
-                  ,color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
 rects3 = ax.bar(labels, value03, wCDWth, label=label3
                   ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 rects4 = ax.bar(labels, value04, wCDWth, label=label4
                   ,bottom=[value01[i]+value02[i]+value03[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('tab20c')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
 ax.set_title('PSA 연령별 결과 분포(2020년)\n',fontsize=30)
 ax.set_ylabel(
