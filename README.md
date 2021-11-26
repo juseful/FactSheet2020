@@ -7,3 +7,5 @@ Factsheet documents creation works
           Execution plan, result export fomat modify
 
 20211125: PSA distribution. multi line text input function modify
+
+20211126: Prostate Ultrasound distribution. figure format modify
