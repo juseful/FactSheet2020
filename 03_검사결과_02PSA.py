@@ -7,7 +7,7 @@ from matplotlib import font_manager,rc  #한글 폰트 입력을 위한 라이�
 from pathlib import Path
 
 #폰트 경로 가져오기
-font_path = 'C:\Windows\Fonts\SGL.ttf' #삼성고딕체
+font_path = 'C:\\Windows\\Fonts\\SGL.ttf' #삼성고딕체
  
 # 폰트 이름 얻어오기
 font_name = font_manager.FontProperties(fname=font_path).get_name()
@@ -148,7 +148,7 @@ plt.setp(autotexts, size=20, weight="bold") # 내부 text 속성 수정
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_01검사현황.png".format(workdir[:-5]))
+plt.savefig("{}/03_02PSA_01검사현황.png".format(workdir[:-5]),edgecolor="black")
 
 plt.show()
 # %%
@@ -166,7 +166,7 @@ x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함
 width = 0.22  # the width of the bars
 
 # fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 11))#,linewidth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 # rects1 = ax.bar(x - width-0.17 , value01, width, label=label1,color='lightslategray') RdYlBu
@@ -218,7 +218,7 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.18)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5]))
+plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5]),edgecolor='black')
 
 plt.show()
 
@@ -238,7 +238,7 @@ label4 = '10.0~ ng/ml'
 
 wCDWth = 0.5       # the wCDWth of the bars: can also be len(x) sequence
 
-fig, ax = plt.subplots(figsize=(12, 11))#,linewCDWth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 
@@ -283,7 +283,7 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.18)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_03연령별결과분포.png".format(workdir[:-5]))
+plt.savefig("{}/03_02PSA_03연령별결과분포.png".format(workdir[:-5]),edgecolor='black')
 
 plt.show()
 # %%
