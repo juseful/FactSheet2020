@@ -7,7 +7,7 @@ from matplotlib import font_manager,rc  #한글 폰트 입력을 위한 라이�
 from pathlib import Path
 
 #폰트 경로 가져오기
-font_path = 'C:\Windows\Fonts\SGL.ttf' #삼성고딕체
+font_path = 'C:\\Windows\\Fonts\\SGL.ttf' #삼성고딕체
  
 # 폰트 이름 얻어오기
 font_name = font_manager.FontProperties(fname=font_path).get_name()
@@ -106,7 +106,7 @@ value = bph_cnt.iloc[-1,:-1]
 fig, ax = plt.subplots(figsize=(12, 11), subplot_kw=dict(aspect="equal"),linewidth=2)
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-ax.set_title("전립선초음파 연령대별 검사 현황(2020년)",fontsize=35)
+ax.set_title("전립선초음파 연령별 검사 현황(2020년)",fontsize=35)
 
 def func(pct, allvals):
     absolute = int(round(pct/100.*np.sum(allvals)))
