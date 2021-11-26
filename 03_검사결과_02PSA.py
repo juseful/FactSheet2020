@@ -106,7 +106,7 @@ value = psa_cnt.iloc[-1,:-1]
 fig, ax = plt.subplots(figsize=(12, 11), subplot_kw=dict(aspect="equal"),linewidth=2)
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-ax.set_title("연령대별 PSA 검사 현황(2020년)",fontsize=35)
+ax.set_title("PSA 연령별 검사 현황(2020년)",fontsize=35)
 
 def func(pct, allvals):
     absolute = int(round(pct/100.*np.sum(allvals)))
