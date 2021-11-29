@@ -148,7 +148,9 @@ plt.setp(autotexts, size=20, weight="bold") # 내부 text 속성 수정
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_01검사현황.png".format(workdir[:-5]),edgecolor="black")
+plt.savefig("{}/03_02PSA_01검사현황.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144 #72의 배수
+            )
 
 plt.show()
 # %%
@@ -218,7 +220,9 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.18)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5]),edgecolor='black')
+plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144 #72의 배수
+            )
 
 plt.show()
 
@@ -283,7 +287,9 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.18)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_03연령별결과분포.png".format(workdir[:-5]),edgecolor='black')
+plt.savefig("{}/03_02PSA_03연령별결과분포.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144 #72의 배수
+            )
 
 plt.show()
 # %%
