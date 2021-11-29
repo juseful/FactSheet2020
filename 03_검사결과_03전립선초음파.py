@@ -27,12 +27,12 @@ RS1140 = RS1140.drop(RS1140.loc[RS1140['AGE']<40].index)
 
 #%% 
 # 데이터 편집
-RS1140.loc[ RS1140['AGE'] < 30                        ,'AGEGRP'] = '0~29yrs'
-RS1140.loc[(RS1140['AGE'] > 29) & (RS1140['AGE'] < 40),'AGEGRP'] = '30~39yrs'
-RS1140.loc[(RS1140['AGE'] > 39) & (RS1140['AGE'] < 50),'AGEGRP'] = '40~49yrs'
-RS1140.loc[(RS1140['AGE'] > 49) & (RS1140['AGE'] < 60),'AGEGRP'] = '50~59yrs'
-RS1140.loc[(RS1140['AGE'] > 59) & (RS1140['AGE'] < 70),'AGEGRP'] = '60~69yrs'
-RS1140.loc[ RS1140['AGE'] > 69                        ,'AGEGRP'] = '70yrs~'
+RS1140.loc[ RS1140['AGE'] < 30                        ,'AGEGRP'] = '0~29세'
+RS1140.loc[(RS1140['AGE'] > 29) & (RS1140['AGE'] < 40),'AGEGRP'] = '30~39세'
+RS1140.loc[(RS1140['AGE'] > 39) & (RS1140['AGE'] < 50),'AGEGRP'] = '40~49세'
+RS1140.loc[(RS1140['AGE'] > 49) & (RS1140['AGE'] < 60),'AGEGRP'] = '50~59세'
+RS1140.loc[(RS1140['AGE'] > 59) & (RS1140['AGE'] < 70),'AGEGRP'] = '60~69세'
+RS1140.loc[ RS1140['AGE'] > 69                        ,'AGEGRP'] = '70세 이상'
 
 GRP = 'BPH'
 
@@ -148,7 +148,8 @@ plt.setp(autotexts, size=20, weight="bold") # 내부 text 속성 수정
 
 fig.tight_layout()
 
-plt.savefig("{}/03_03전립선초음파_01검사현황.png".format(workdir[:-5]),edgecolor='black')
+plt.savefig("{}/03_03전립선초음파_01검사현황.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144) #72의 배수
 
 plt.show()
 # %%
@@ -214,7 +215,8 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.22)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_03전립선초음파_02결과분포.png".format(workdir[:-5]),edgecolor='black')
+plt.savefig("{}/03_03전립선초음파_02결과분포.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144) #72의 배수
 
 plt.show()
 
@@ -275,7 +277,8 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.22)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_03전립선초음파_03연령별결과분포.png".format(workdir[:-5]),edgecolor='black')
+plt.savefig("{}/03_03전립선초음파_03연령별결과분포.png".format(workdir[:-5])
+            ,edgecolor='black', dpi=144) #72의 배수
 
 plt.show()
 # %%
