@@ -9,3 +9,5 @@ Factsheet documents creation works
 20211125: PSA distribution. multi line text input function modify
 
 20211126: Prostate Ultrasound distribution. figure format modify
+
+20211129: Healthcare examination distribution. figure format modify
