@@ -11,3 +11,5 @@ Factsheet documents creation works
 20211126: Prostate Ultrasound distribution. figure format modify
 
 20211129: Healthcare examination distribution. figure format modify
+
+20211130: Result Images merge to pdf.
