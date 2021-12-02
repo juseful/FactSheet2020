@@ -13,3 +13,6 @@ Factsheet documents creation works
 20211129: Healthcare examination distribution. figure format modify
 
 20211130: Result Images merge to pdf.
+
+20211202: Lung nodule finding distribution at Low dose Lung CT.
+          Breast nodule finding distribution at Breast Ultrasound.
