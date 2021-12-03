@@ -27,7 +27,9 @@ filelist
 img_list = []
 
 for file in filelist:
-    im_buf = Image.open(file)
+    img = Image.open(file)
+    # apply to image same size 
+    im_buf = img.resize((1728, 1584))
     cvt_rgb = im_buf.convert('RGB')
     img_list.append(cvt_rgb)
 
@@ -35,4 +37,6 @@ img_list
 
 # %%
 # in the order of image list
-img_list[0].save('{}/test_21120102.pdf'.format(workdir),save_all=True, append_images=img_list[1:])
+img_list[0].save('{}/Factsheet_샘플_211203.pdf'.format(workdir),save_all=True, append_images=img_list[1:])
+
+# %%
