@@ -16,3 +16,4 @@ Factsheet documents creation works
 
 20211202: Lung nodule finding distribution at Low dose Lung CT.
           Breast nodule finding distribution at Breast Ultrasound.
+20211206: Pancreas cyst, mass result distribution at Abdominal CT, MRI EXAM
