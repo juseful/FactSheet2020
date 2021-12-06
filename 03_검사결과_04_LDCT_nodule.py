@@ -60,7 +60,7 @@ RC1241_cnt_m = data_m.pivot_table(
     ,margins=True
     ,fill_value=0
                             )
-
+RC1241_cnt_m.columns = RC1241_cnt_m.columns.droplevel()
 # RC1241_cnt_m
 # each column total value percentile
 RC1241_per_m = round(RC1241_cnt_m.div(RC1241_cnt_m.iloc[-1], axis=1).astype(float)*100,1)
@@ -98,7 +98,7 @@ RC1241_cnt_f = data_f.pivot_table(
     ,margins=True
     ,fill_value=0
                             )
-
+RC1241_cnt_f.columns = RC1241_cnt_f.columns.droplevel()
 # RC1241_cnt_f
 # each column total value percentile
 RC1241_per_f = round(RC1241_cnt_f.div(RC1241_cnt_f.iloc[-1], axis=1).astype(float)*100,1)
@@ -130,19 +130,12 @@ for i in range(len(RC1241_cnt_f.columns)):
 
 # %%
 RC1241_agegrp = pd.concat([RC1241_agegrp_m.iloc[:-1,:], RC1241_agegrp_f.iloc[:-1,:]],axis=0)
-RC1241_agegrp_label = []
-
-for i in range(len(RC1241_agegrp.columns)):
-    RC1241_agegrp_label.append(RC1241_agegrp.columns[i][1])
-    
-RC1241_agegrp.columns = RC1241_agegrp_label
 RC1241_agegrp = RC1241_agegrp.sort_index()
+RC1241_agegrp
 
-labels = []
-for i in range(len(RC1241_per_m.columns)-1):
-    labels.append(RC1241_per_m.columns[i][1])
-    
-# # %%
+labels = RC1241_cnt_m.columns[:-1].to_list()  
+# labels
+# %%
 RC1241_cnt_t = data.pivot_table(
                              index=[GRP]#,'GENDER']
                             ,columns=['AGEGRP']
@@ -151,7 +144,7 @@ RC1241_cnt_t = data.pivot_table(
     ,margins=True
     ,fill_value=0
                             )
-
+RC1241_cnt_t.columns = RC1241_cnt_t.columns.droplevel()
 # total value percentile
 RC1241_per_t = round(RC1241_cnt_t.div(RC1241_cnt_t.iloc[-1,-1], axis=0).astype(float)*100,1)
 
@@ -331,3 +324,4 @@ plt.savefig("{}/03_04_LDCT_02연령별유병률.png".format(workdir[:-5])
 RC1241_agegrp_t.to_excel('{}/03_04_LDCT.xlsx'.format(workdir[:-5]),sheet_name="유병률")
 with pd.ExcelWriter('{}/03_04_LDCT.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     RC1241_agegrp.to_excel(writer,sheet_name="연령별유병률")
+# %%
