@@ -21,14 +21,14 @@ data = pd.read_stata('{}/SMHIS_2020.dta'.format(workdir))
 data.loc[data['GEND_CD'] == 'M', 'GENDER'] = '남자'
 data.loc[data['GEND_CD'] == 'F', 'GENDER'] = '여자'
 
-data.loc[data['AGEGRP2'] =='~29'  , 'AGEGRP2'] = '0~29세'
+data.loc[data['AGEGRP2'] =='~29'  , 'AGEGRP2'] = '29세 이하'
 data.loc[data['AGEGRP2'] =='30~39', 'AGEGRP2'] = '30~39세'
 data.loc[data['AGEGRP2'] =='40~49', 'AGEGRP2'] = '40~49세'
 data.loc[data['AGEGRP2'] =='50~59', 'AGEGRP2'] = '50~59세'
 data.loc[data['AGEGRP2'] =='60~69', 'AGEGRP2'] = '60~69세'
 data.loc[data['AGEGRP2'] =='70~'  , 'AGEGRP2'] = '70세 이상'
 
-data
+# data
 # %%
 # pivot table create
 # margins=True면 total값이 같이 나오지만, 피봇테이블 컬럼 변경을 위해 미적용
@@ -38,6 +38,7 @@ pivot_gend_cnt
 # 각 행의 총합을 기준으로 백분율이 설정되어야 함.
 # pivot_gend_cnt2[('ID', 'All')] 이게 기준 값이 되는 것임.
 pivot_gend_per = round(pivot_gend_cnt.div(pivot_gend_cnt[('ID', 'All')], axis=0).astype(float)*100,2).add_suffix("(%)")
+# pivot_gend_per = round(pivot_gend_cnt.div(pivot_gend_cnt.iloc[-1], axis=1).astype(float)*100,1)
 pivot_gend_per
 
 pivot_gend = pd.DataFrame() # 빈 DataFrame 만들기
@@ -61,14 +62,29 @@ for i in range(len(pivot_gend_cnt.columns)):
                             ,axis=1
         )
 
-pivot_gend
-
 pivot_gend_label = []
 
 for i in range(len(pivot_gend.columns)):
     pivot_gend_label.append(pivot_gend.columns[i][1])
 
-pivot_gend.columns = pivot_gend_label
+pivot_gend.columns = pd.MultiIndex.from_tuples(
+        (
+         ('29세 이하', 'N')
+        ,('29세 이하', '%')
+        ,('30~39세', 'N')
+        ,('30~39세', '%')
+        ,('40~49세', 'N')
+        ,('40~49세', '%')
+        ,('50~59세', 'N')
+        ,('50~59세', '%')
+        ,('60~69세', 'N')
+        ,('60~69세', '%')
+        ,('70세 이상', 'N')
+        ,('70세 이상', '%')
+        ,('전체', 'N')
+        ,('전체', '%')
+        )
+    )
 
 pivot_gend
 # %%
@@ -85,13 +101,13 @@ label01 = '전체'
 x = np.arange(len(labels))
 width = 0.35  # the width of the bars
 
-fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 15))#,linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-rects = ax.bar(x, value01, width, label=label01, color='darkmagenta')
+rects1 = ax.bar(x, value01, width, label=label01, color='darkmagenta')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 수진현황(2020년)\n',fontsize=30)
+ax.set_title('연령별 수진현황(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: 명)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -106,7 +122,6 @@ ax.set_xticklabels(
                    labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
                   , fontsize=17
                   )
-# ax.legend(fontsize=17)
 
 # bar위에 값 label 표시
 def autolabel(rects):
@@ -121,14 +136,23 @@ def autolabel(rects):
                    ,fontsize=18
                    )
 
-autolabel(rects)
+autolabel(rects1)
+
+plt.text(-0.3, -2000, ' ', fontsize=17)
+plt.text(-0.3, -3000, ' ', fontsize=22)
+plt.text(-0.3, -4000, ' ', fontsize=17)
+plt.text(-0.3, -5000, ' ', fontsize=17)
+plt.text(-0.3, -6000, ' ', fontsize=17)
+plt.text(-0.3, -7000, ' ', fontsize=17)
+plt.text(-0.3, -8000, ' ', fontsize=17)
 
 fig.tight_layout()
 
 plt.savefig("{}/01_01수진현황_01전체.png".format(workdir[:-5])
-            ,edgecolor='black', dpi=144) #72의 배수
+            # ,edgecolor='black'
+            , dpi=175)
 
-plt.show()
+# plt.show()
 # %%
 value01 = pivot_gend_cnt.iloc[0,:-1]
 value02 = pivot_gend_cnt.iloc[1,:-1]
@@ -139,14 +163,14 @@ label02 = '여자'
 x = np.arange(len(labels))
 width = 0.35  # the width of the bars
 
-fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 15))#,linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 rects1 = ax.bar(x - 0.2, value01, width, label=label01,color='cornflowerblue')
 rects2 = ax.bar(x + 0.2, value02, width, label=label02,color='salmon')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('성별 수진현황(2020년)\n',fontsize=30)
+ax.set_title('성별 수진현황(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: 명)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -178,12 +202,22 @@ def autolabel(rects):
 
 autolabel(rects1)
 autolabel(rects2)
-# autolabel(rects3)
+
+plt.text(-0.3, -1000, ' ', fontsize=17)
+plt.text(-0.3, -1500, ' ', fontsize=22)
+plt.text(-0.3, -2000, ' ', fontsize=17)
+plt.text(-0.3, -2500, ' ', fontsize=17)
+plt.text(-0.3, -3000, ' ', fontsize=17)
+plt.text(-0.3, -3500, ' ', fontsize=17)
+plt.text(-0.3, -4000, ' ', fontsize=17)
 
 fig.tight_layout()
 
 plt.savefig("{}/01_01수진현황_02성별.png".format(workdir[:-5])
-            ,edgecolor='black', dpi=144) #72의 배수
+            # ,edgecolor='black'
+            , dpi=175)
 
 plt.show()
+# %%
+pivot_gend.to_excel('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]),sheet_name="수진현황")
 # %%
