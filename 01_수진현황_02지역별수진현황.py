@@ -4,6 +4,7 @@ import json
 
 # import mapboxgl
 import os
+import matplotlib.pyplot as plt
 
 import plotly.express as px
 import plotly.io as pio
@@ -54,7 +55,8 @@ state_geo2 = json.load(open(filepath3,encoding='utf-8'))
 #                )
 
 # fig.show()
-
+#%%
+df
 # %%
 fig = px.choropleth( df
                     ,geojson=state_geo2
@@ -76,19 +78,28 @@ fig.update_geos( fitbounds="geojson"
 
 fig.update_layout(margin={"r":30,"t":30,"l":30,"b":30})
 # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.update_layout(title=dict(text="지역별 수진현황(2020년, 전국)"
-                            ,font_size=30
-                            ,x=0.5
-                            ,y=0.975
-                            )
-                 ,paper_bgcolor="whitesmoke"
+fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 전국)"
+                #             ,font_size=30
+                #             ,x=0.5
+                #             ,y=0.975
+                #             )
+                #  ,
+                paper_bgcolor="whitesmoke"
                  )#, **layout_setting)
-
-pio.write_image( fig
-                ,"{}/01_02지역별수진현황_01전국.png".format(workdir[:-5])
-                ,width=864, height=792
-                ,scale=2
-               )
+# fig.add_annotation(dict(font_size=15,
+#                         x=0.1,
+#                         y=-0.05,
+#                         showarrow=False,
+#                         text="<b>2020년 건진 수진자의 약 46%가 서울시에, 약 31%가 경기도에 거주하였다.</b>",
+#                         textangle=0,
+#                         xanchor='left',
+#                         xref="paper",
+#                         yref="paper"))
+# pio.write_image( fig
+#                 ,"{}/01_02지역별수진현황_01전국_t.png".format(workdir[:-5])
+#                 ,width=864, height=792
+#                 ,scale=2
+#                )
 
 fig.show()
 
@@ -124,19 +135,20 @@ fig.update_geos( fitbounds="geojson"
 
 fig.update_layout(margin={"r":30,"t":30,"l":30,"b":30})
 # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.update_layout(title=dict(text="지역별 수진현황(2020년, 서울)"
-                            ,font_size=30
-                            ,x=0.5
-                            ,y=0.975
-                            )
-                 ,paper_bgcolor="whitesmoke"
+fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 서울)"
+                #             ,font_size=30
+                #             ,x=0.5
+                #             ,y=0.975
+                #             )
+                #  ,
+                 paper_bgcolor="whitesmoke"
                  )#, **layout_setting)
 
-pio.write_image( fig
-                ,"{}/01_02지역별수진현황_02서울.png".format(workdir[:-5])
-                ,width=864, height=792
-                ,scale=2
-               )
+# pio.write_image( fig
+#                 ,"{}/01_02지역별수진현황_02서울.png".format(workdir[:-5])
+#                 ,width=864, height=792
+#                 ,scale=2
+#                )
 
 fig.show()
 # %%
@@ -165,20 +177,26 @@ fig.update_geos( fitbounds="geojson"
 
 fig.update_layout(margin={"r":30,"t":30,"l":30,"b":30})
 # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.update_layout(title=dict(text="지역별 수진현황(2020년, 경기)"
-                            ,font_size=30
-                            ,x=0.5
-                            ,y=0.975
-                            )
-                 ,paper_bgcolor="whitesmoke"
+fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 경기)"
+                #             ,font_size=30
+                #             ,x=0.5
+                #             ,y=0.975
+                #             )
+                #  ,
+                 paper_bgcolor="whitesmoke"
                  )#, **layout_setting)
 
-pio.write_image( fig
-                ,"{}/01_02지역별수진현황_03경기.png".format(workdir[:-5])
-                ,width=864, height=792
-                ,scale=2
-               )
+# pio.write_image( fig
+#                 ,"{}/01_02지역별수진현황_03경기.png".format(workdir[:-5])
+#                 ,width=864, height=792
+#                 ,scale=2
+#                )
 
 fig.show()
 
+# %%
+# data merge, export
+with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
+    df.to_excel(writer,sheet_name="01_02지역별", index=False)
+    df_sudo.to_excel(writer,sheet_name="01_02지역별_수도권", index=False)
 # %%
