@@ -12,6 +12,8 @@ import plotly.io as pio
 import plotly.offline as pyo
 #plotly offline 모드 변경
 pyo.init_notebook_mode()
+pio.renderers.default = "notebook_connected"
+# pyo.renderers.default = "vscode"
 # %%
 workdir = ''
 filepath1 = '{}/HPC_CNT.dta'.format(workdir)
@@ -95,11 +97,11 @@ fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 전국)"
 #                         xanchor='left',
 #                         xref="paper",
 #                         yref="paper"))
-# pio.write_image( fig
-#                 ,"{}/01_02지역별수진현황_01전국_t.png".format(workdir[:-5])
-#                 ,width=864, height=792
-#                 ,scale=2
-#                )
+pio.write_image( fig
+                ,"{}/01_02지역별수진현황_01전국.png".format(workdir[:-5])
+                ,width=864, height=792
+                ,scale=2
+               )
 
 fig.show()
 
@@ -144,11 +146,11 @@ fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 서울)"
                  paper_bgcolor="whitesmoke"
                  )#, **layout_setting)
 
-# pio.write_image( fig
-#                 ,"{}/01_02지역별수진현황_02서울.png".format(workdir[:-5])
-#                 ,width=864, height=792
-#                 ,scale=2
-#                )
+pio.write_image( fig
+                ,"{}/01_02지역별수진현황_02서울.png".format(workdir[:-5])
+                ,width=864, height=792
+                ,scale=2
+               )
 
 fig.show()
 # %%
@@ -186,11 +188,11 @@ fig.update_layout(#title=dict(text="지역별 수진현황(2020년, 경기)"
                  paper_bgcolor="whitesmoke"
                  )#, **layout_setting)
 
-# pio.write_image( fig
-#                 ,"{}/01_02지역별수진현황_03경기.png".format(workdir[:-5])
-#                 ,width=864, height=792
-#                 ,scale=2
-#                )
+pio.write_image( fig
+                ,"{}/01_02지역별수진현황_03경기.png".format(workdir[:-5])
+                ,width=864, height=792
+                ,scale=2
+               )
 
 fig.show()
 
