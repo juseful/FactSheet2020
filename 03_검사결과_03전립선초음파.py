@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 #폰트 설정하기
 mpl.rc('font',family=font_name)
 # %%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 
 file_path = '{}/RS1140N.dta'.format(workdir)
 
@@ -78,11 +78,62 @@ for i in range(len(bph_cnt.columns)):
                                 ]
                             ,axis=1
         )
+
+bph_table.columns = pd.MultiIndex.from_tuples(
+        (
+         ('40~49세', 'N')
+        ,('40~49세', '%')
+        ,('50~59세', 'N')
+        ,('50~59세', '%')
+        ,('60~69세', 'N')
+        ,('60~69세', '%')
+        ,('70세 이상', 'N')
+        ,('70세 이상', '%')
+        ,('전체', 'N')
+        ,('전체', '%')
+        )
+    )
         
 # bph_table
 
 # 각 열합계를 기준으로 한 비율 구하기
 bph_agegrp_per = round(bph_cnt.div(bph_cnt.iloc[-1],axis=1).astype(float)*100,1)
+
+bph_table_agegrp = pd.DataFrame()
+
+for i in range(len(bph_cnt.columns)):
+    if i == 0:
+        bph_table_agegrp = pd.concat(
+                                [
+                                 bph_cnt.iloc[:,i]
+                                ,bph_agegrp_per.iloc[:,i]
+                                ]
+                            ,axis=1
+        )
+    else:
+        bph_table_agegrp = pd.concat(
+                                [
+                                 bph_table_agegrp
+                                ,bph_cnt.iloc[:,i]
+                                ,bph_agegrp_per.iloc[:,i]
+                                ]
+                            ,axis=1
+        )
+
+bph_table_agegrp.columns = pd.MultiIndex.from_tuples(
+        (
+         ('40~49세', 'N')
+        ,('40~49세', '%')
+        ,('50~59세', 'N')
+        ,('50~59세', '%')
+        ,('60~69세', 'N')
+        ,('60~69세', '%')
+        ,('70세 이상', 'N')
+        ,('70세 이상', '%')
+        ,('전체', 'N')
+        ,('전체', '%')
+        )
+    )
 
 # bph_agegrp_per
 
@@ -100,13 +151,15 @@ for i in bph_per.columns:
     
 # labels_per
 
+# bph_table
+# bph_table_agegrp
 # %%
 value = bph_cnt.iloc[-1,:-1]
 
-fig, ax = plt.subplots(figsize=(12, 11), subplot_kw=dict(aspect="equal"),linewidth=2)
+fig, ax = plt.subplots(figsize=(12, 15), subplot_kw=dict(aspect="equal"),linewidth=2)
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-ax.set_title("전립선초음파 연령별 검사 현황(2020년)",fontsize=35)
+ax.set_title("전립선초음파 연령별 검사 현황(2020년)\n\n",fontsize=35)
 
 def func(pct, allvals):
     absolute = int(round(pct/100.*np.sum(allvals)))
@@ -144,12 +197,16 @@ for i, p in enumerate(wedges):
     ax.annotate(labels[i], xy=(x, y), xytext=(1.1*np.sign(x), 1.1*y),
                 horizontalalignment=horizontalalignment, **kw)
 
-plt.setp(autotexts, size=20, weight="bold") # 내부 text 속성 수정
+plt.setp(autotexts, size=20, weight="bold") # 내부 text 속성 수정plt.text(-0.3, -1.2  , '          ', fontsize=17)
+plt.text(-0.3, -1.2  , '          ', fontsize=17)
+plt.text(-0.3, -1.5, '          ', fontsize=17)
+plt.text(-0.3, -1.8, '          ', fontsize=17)
 
 fig.tight_layout()
 
 plt.savefig("{}/03_03전립선초음파_01검사현황.png".format(workdir[:-5])
-            ,edgecolor='black', dpi=144) #72의 배수
+            , dpi=175 #72의 배수 ,edgecolor='black'
+            )
 
 plt.show()
 # %%
@@ -165,7 +222,7 @@ x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함
 width = 0.25  # the width of the bars
 
 # fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 # rects1 = ax.bar(x - width-0.17 , value01, width, label=label1,color='lightslategray') RdYlBu
@@ -174,7 +231,7 @@ rects2 = ax.bar(x             , value02, width, label=label2, color=plt.get_cmap
 rects3 = ax.bar(x + width+0.03, value03, width, label=label3, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('전립선초음파 결과 분포(2020년)\n',fontsize=30)
+ax.set_title('전립선초음파 결과 분포(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -207,16 +264,18 @@ autolabel(rects1)
 autolabel(rects2)
 autolabel(rects3)
 
-plt.text(-0.6, -2,  '전립선초음파 결과 분류기준:', fontsize=22)
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.22)
+plt.text(-0.6, -3,  '전립선초음파 결과 분류기준:', fontsize=22)
+lg = ax.legend(bbox_to_anchor=(-0.01,-0.23)
           ,title='Prostate volume', title_fontsize=17
           ,ncol=4  ,loc='lower left' ,fontsize=15
           )
+plt.text(-0.3, -6.75, '          ', fontsize=17)
 
 fig.tight_layout()
 
 plt.savefig("{}/03_03전립선초음파_02결과분포.png".format(workdir[:-5])
-            ,edgecolor='black', dpi=144) #72의 배수
+            , dpi=175 #72의 배수 ,edgecolor='black'
+            )
 
 plt.show()
 
@@ -235,7 +294,7 @@ label3 = bph_cnt.index[2]+' ml'
 
 wCDWth = 0.5       # the wCDWth of the bars: can also be len(x) sequence
 
-fig, ax = plt.subplots(figsize=(12, 11),linewidth=2) # 캔버스 배경 사이즈 설정
+fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 
@@ -248,9 +307,9 @@ rects3 = ax.bar(labels, value03, wCDWth, label=label3
                   ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
-ax.set_title('전립선초음파 연령별 결과 분포(2020년)\n',fontsize=30)
+ax.set_title('전립선초음파 연령별 결과 분포(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
-                '(단위: %)\n' # 표시값
+                '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
                 ,fontsize=20 # 글씨크기 설정
                 ,rotation=0 # 회전값 조정
@@ -269,16 +328,24 @@ ax.bar_label(rects1, label_type='center',fontsize=16)
 ax.bar_label(rects2, label_type='center',fontsize=16)
 ax.bar_label(rects3, label_type='center',fontsize=16)
 
-plt.text(-0.4, -10,  '전립선초음파 결과 분류기준:', fontsize=22)
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.22)
+plt.text(-0.4, -12,  '전립선초음파 결과 분류기준:', fontsize=22)
+lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
           ,title='Prostate volume', title_fontsize=17
           ,ncol=4  ,loc='lower left' ,fontsize=15
           )
+# plt.text(-0.4, -25, '          ', fontsize=17)
+plt.text(-0.4, -31, '          ', fontsize=17)
 
 fig.tight_layout()
 
 plt.savefig("{}/03_03전립선초음파_03연령별결과분포.png".format(workdir[:-5])
-            ,edgecolor='black', dpi=144) #72의 배수
+            , dpi=175 #72의 배수 ,edgecolor='black'
+            )
 
 plt.show()
+# %%
+with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
+    # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
+    bph_table.to_excel(writer,sheet_name="03_03BPH")
+    bph_table_agegrp.to_excel(writer,sheet_name="03_03BPH_agegrp")
 # %%
