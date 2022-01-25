@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
+from matplotlib.patches import ConnectionPatch
 from matplotlib import font_manager,rc  #한글 폰트 입력을 위한 라이브러리
 
 #폰트 경로 가져오기
@@ -15,7 +16,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 mpl.rc('font',family=font_name)
 
 #%%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 file_path = '{}/CaCT_SCORE.dta'.format(workdir)
 
 data = pd.read_stata(file_path)
@@ -33,15 +34,57 @@ data.loc[(data['AGE'] > 49) & (data['AGE'] < 60),'AGEGRP'] = '50~59세'
 data.loc[(data['AGE'] > 59) & (data['AGE'] < 70),'AGEGRP'] = '60~69세'
 data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 # data.head(100)
-data.loc[ data['AJ_130'] == 0                            ,'CACT'] = '01. No calcification(AJ-130 score = 0)'
-data.loc[(data['AJ_130'] > 0)    & (data['AJ_130'] < 10) ,'CACT'] = '02. Minimal calcification(AJ-130 score 1 ~ 9)'
-data.loc[(data['AJ_130'] >= 10)  & (data['AJ_130'] < 100),'CACT'] = '03. Mild calcification(AJ-130 score 10~99)'
-data.loc[(data['AJ_130'] >= 100) & (data['AJ_130'] < 400),'CACT'] = '04. Moderate calcification(AJ-130 score 100 ~ 399)'
-data.loc[ data['AJ_130'] >= 400                          ,'CACT'] = '05. Severe calcification(AJ-130 score 400 ~)'
+data.loc[ data['AJ_130'] == 0                            ,'CACT'] = '01_No calcification(AJ-130 score = 0)'
+data.loc[(data['AJ_130'] > 0)    & (data['AJ_130'] < 10) ,'CACT'] = '02_Minimal calcification(AJ-130 score 1 ~ 9)'
+data.loc[(data['AJ_130'] >= 10)  & (data['AJ_130'] < 100),'CACT'] = '03_Mild calcification(AJ-130 score 10~99)'
+data.loc[(data['AJ_130'] >= 100) & (data['AJ_130'] < 400),'CACT'] = '04_Moderate calcification(AJ-130 score 100 ~ 399)'
+data.loc[ data['AJ_130'] >= 400                          ,'CACT'] = '05_Severe calcification(AJ-130 score 400 ~)'
 
 # data
 
 # data
+
+#%%
+data.loc[data['AJ_130'] != 0, 'CAL'] = '01_Cal'
+data['CAL'].fillna('02_No',inplace=True)# data.loc[data['AJ_130'] == 0, 'CAL'] = '02_No'
+data
+
+#%%
+coronary_cal_yn = data.pivot_table(
+                              columns=['CAL']
+                             ,values=['CDW'] 
+                             ,aggfunc='count'
+                             )
+# coronary_cal_yn
+
+label_pie = coronary_cal_yn.columns.to_list()
+# label_pie
+
+data_pie = coronary_cal_yn.iloc[0,:].to_list()
+
+#%%
+coronary_cal_cat = data.pivot_table(
+                              columns=['CACT']
+                             ,values=['CDW'] 
+                             ,aggfunc='count'
+                             )
+coronary_cal_cat
+
+data_bar = coronary_cal_cat.iloc[0,1:].to_list()
+# data_bar
+
+data_bar_per = []
+
+for i in range(len(data_bar)):
+    data_bar_per.append(round(data_bar[i]/data_pie[0],3))
+
+# data_bar_per
+
+label_bar = ['Minimal: AJ-130 1 ~ 9', 'Mild: AJ-130 10 ~ 99'
+            ,'Moderate: AJ-130 100 ~ 399','Severe: AJ-130 400 ~'
+            ]
+
+# label_bar
 
 #%%
 # ### 특정 그룹 별도 저장
@@ -226,6 +269,105 @@ cact_agegrp_t.columns = cact_agegrp.columns = pd.MultiIndex.from_tuples(
     )
 
 cact_agegrp_t
+
+#%%
+# make figure and assign axis objects
+fig = plt.figure(figsize=(12, 12))
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
+fig.subplots_adjust(wspace=0.1)
+
+# pie chart parameters
+ratios = data_pie
+labels = ['Calcification','No']
+explode = [0.05, 0]
+colors = plt.get_cmap('Set2')(
+np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
+)
+
+# rotate so that first wedge is split by the x-axis
+ax1.pie(ratios, autopct='%1.1f%%', startangle=-105,
+labels=labels, explode=explode, colors=colors
+,textprops=dict(color="black",fontsize=25)
+)
+
+# bar chart parameters
+xpos = 0
+bottom = 0
+ratios = data_bar_per #bar chart using category percentile
+width = .2
+colors = plt.get_cmap('coolwarm')(
+np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
+)
+
+for j in range(len(ratios)):
+    height = ratios[j]
+    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j])
+    ypos = bottom + ax2.patches[j].get_height() / 2
+    bottom += height
+    ax2.text(xpos, ypos, "%1.1f%%" % (ax2.patches[j].get_height() * 100),
+             ha='center',color="black",fontsize=15)
+# ax2.text(xpos, ypos, "%d%%" % (ax2.patches[j].get_height() * 100),
+# ha='center')
+
+ax2.set_title('분포(%)', fontsize=17)
+
+# plt.text(-1.35, -0.005, '   ', fontsize=22)
+plt.text(-1.35, -0.005,  '관상동맥 칼슘화 분류 기준:', fontsize=22)
+lg = ax2.legend(label_bar
+               ,bbox_to_anchor=(-0.85,-0.105)
+               ,ncol=2  
+               ,loc='lower left' ,fontsize=15
+               )
+plt.text(-1.6, -0.15,  '  ', fontsize=22)
+# ax2.legend(label_bar,
+# title="결과 분류",
+# title_fontsize=20,
+# loc="center left",
+# bbox_to_anchor=(0.65,0, 0.5, 1),
+# fontsize=20
+# )
+ax2.axis('off')
+ax2.set_xlim(- 2.5 * width, 2.5 * width)
+
+# use ConnectionPatch to draw lines between the two plots
+# get the wedge data
+theta1, theta2 = ax1.patches[0].theta1, ax1.patches[0].theta2
+center, r = ax1.patches[0].center, ax1.patches[0].r
+bar_height = sum([item.get_height() for item in ax2.patches])
+
+# draw top connecting line
+x = r * np.cos(np.pi / 180 * theta2) + center[0]
+y = np.sin(np.pi / 180 * theta2) + center[1]
+con = ConnectionPatch(xyA=(- width / 2, bar_height), xyB=(x, y),
+coordsA="data", coordsB="data", axesA=ax2, axesB=ax1)
+con.set_color([0, 0, 0])
+con.set_linewidth(2)
+ax2.add_artist(con)
+
+# draw bottom connecting line
+x = r * np.cos(np.pi / 180 * theta1) + center[0]
+y = np.sin(np.pi / 180 * theta1) + center[1]
+con = ConnectionPatch(xyA=(- width / 2, 0), xyB=(x, y), coordsA="data",
+coordsB="data", axesA=ax2, axesB=ax1)
+con.set_color([0, 0, 0])
+ax2.add_artist(con)
+con.set_linewidth(2)
+ 
+# ax1.set_title("복부초음파에서 지방간 현황(2020년)\n\n",fontsize=30)
+# ax2.set_title("  \n\n",fontsize=30)
+# all subplot's title setting
+plt.suptitle('관상동맥 칼슘화 분포(2020년)\n\n',fontsize=30)
+
+fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
+
+# fig.tight_layout()
+
+plt.savefig("{}/03_01관상동맥칼슘화_00분포.png".format(workdir[:-5])
+            , dpi=175 #72의 배수 ,edgecolor='black'
+           )
+ 
+# plt.show()
 
 #%%
 # Bar chart create
