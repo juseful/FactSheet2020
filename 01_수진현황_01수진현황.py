@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 #폰트 설정하기
 mpl.rc('font',family=font_name)
 # %%
-workdir = ''
+workdir = 'C:/Users/smcljy/data/20211115_Factsheet/data'
 data = pd.read_stata('{}/SMHIS_2020.dta'.format(workdir))
 
 data.loc[data['GEND_CD'] == 'M', 'GENDER'] = '남자'
@@ -219,5 +219,5 @@ plt.savefig("{}/01_01수진현황_02성별.png".format(workdir[:-5])
 
 plt.show()
 # %%
-pivot_gend.to_excel('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]),sheet_name="수진현황")
+pivot_gend.to_excel('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]),sheet_name="01_수진현황")
 # %%
