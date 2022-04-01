@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 mpl.rc('font',family=font_name)
 
 #%%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 file_path = '{}/NUM_DATA.dta'.format(workdir)
 
 data = pd.read_stata(file_path)
@@ -42,8 +42,8 @@ data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 #%%
 ### 특정 그룹 별도 저장
 bp_ctrl = data.drop(data.loc[data[GRP]!='고혈압'].index)
-bp_ctrl.loc[(bp_ctrl['SBP'] < 140) & (bp_ctrl['DBP'] < 90), '{}_CTRL_YN'.format(GRP)] = '조절군' # globals()['{}_CTRL_YN'.format(GRP)]
-bp_ctrl['BP_CTRL_YN'].fillna('비조절군',inplace=True)
+bp_ctrl.loc[(bp_ctrl['SBP'] < 140) & (bp_ctrl['DBP'] < 90), '{}_CTRL_YN'.format(GRP)] = '조절되는 그룹' # globals()['{}_CTRL_YN'.format(GRP)]
+bp_ctrl['BP_CTRL_YN'].fillna('조절되지 않는 그룹',inplace=True)
 # bp_ctrl
 data_m = data.drop(data.loc[data['GEND_CD']=='F'].index)
 data_f = data.drop(data.loc[data['GEND_CD']=='M'].index)
@@ -607,7 +607,7 @@ plt.savefig("{}/02_01고혈압_02성별유병율.png".format(workdir[:-5])
 
 plt.show()
 #%%
-value01 = bp_ctrl_per_subt.iloc[1,:-1]
+value01 = bp_ctrl_per_subt.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
 
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
@@ -665,8 +665,8 @@ plt.savefig("{}/02_01고혈압_03조절율.png".format(workdir[:-5])
 
 plt.show()
 #%%
-value01 = bp_ctrl_per_m.iloc[1,:-1]
-value02 = bp_ctrl_per_f.iloc[1,:-1]
+value01 = bp_ctrl_per_m.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
+value02 = bp_ctrl_per_f.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
 width = 0.35  # the width of the bars
@@ -730,7 +730,9 @@ plt.show()
 #%%
 # data merge, export
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
-    bp_agegrp_t.to_excel(writer,sheet_name="02_01고혈압유병율t")
-    bp_agegrp.to_excel(writer,sheet_name="02_01고혈압성별유병율t")
-    bp_ctrl_agegrp_t.to_excel(writer,sheet_name="02_01고혈압조절율t")
-    bp_ctrl_agegrp.to_excel(writer,sheet_name="02_01고혈압성별조절율t")
+    bp_agegrp_t.to_excel(writer,sheet_name="02_01고혈압유병율")
+    bp_agegrp.to_excel(writer,sheet_name="02_01고혈압성별유병율")
+    bp_ctrl_agegrp_t.to_excel(writer,sheet_name="02_01고혈압조절율")
+    bp_ctrl_agegrp.to_excel(writer,sheet_name="02_01고혈압성별조절율")
+
+# %%
