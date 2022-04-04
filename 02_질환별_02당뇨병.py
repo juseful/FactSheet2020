@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 from matplotlib import font_manager,rc  #한글 폰트 입력을 위한 라이브러리
+from matplotlib.patches import ConnectionPatch
 
 #폰트 경로 가져오기
 font_path = 'C:\\Windows\\Fonts\\SGL.ttf' #삼성고딕체
@@ -15,7 +16,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 mpl.rc('font',family=font_name)
 
 #%%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 file_path = '{}/NUM_DATA.dta'.format(workdir)
 
 data = pd.read_stata(file_path)
@@ -42,8 +43,8 @@ data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 #%%
 ### 특정 그룹 별도 저장
 dm_ctrl = data.drop(data.loc[data[GRP]!='당뇨병'].index)
-dm_ctrl.loc[(dm_ctrl['BL3164'] < 7.0), '{}_CTRL_YN'.format(GRP)] = '조절군'
-dm_ctrl['{}_CTRL_YN'.format(GRP)].fillna('비조절군',inplace=True)
+dm_ctrl.loc[(dm_ctrl['BL3164'] < 7.0), '{}_CTRL_YN'.format(GRP)] = '조절되는 그룹'
+dm_ctrl['{}_CTRL_YN'.format(GRP)].fillna('조절되지 않는 그룹',inplace=True)
 # dm_ctrl
 data_m = data.drop(data.loc[data['GEND_CD']=='F'].index)
 data_f = data.drop(data.loc[data['GEND_CD']=='M'].index)
@@ -607,7 +608,7 @@ plt.savefig("{}/02_02당뇨병_02성별유병율.png".format(workdir[:-5])
 
 plt.show()
 #%%
-value01 = dm_ctrl_per_subt.iloc[1,:-1]
+value01 = dm_ctrl_per_subt.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
 
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
@@ -665,8 +666,8 @@ plt.savefig("{}/02_02당뇨병_03조절율.png".format(workdir[:-5])
 
 plt.show()
 #%%
-value01 = dm_ctrl_per_m.iloc[1,:-1]
-value02 = dm_ctrl_per_f.iloc[1,:-1]
+value01 = dm_ctrl_per_m.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
+value02 = dm_ctrl_per_f.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
 width = 0.35  # the width of the bars
@@ -734,4 +735,159 @@ with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a
     dm_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별유병율")
     dm_ctrl_agegrp_t.to_excel(writer,sheet_name="02_02당뇨병조절율")
     dm_ctrl_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별조절율")
+
+#%%
+dm_grp = data.pivot_table(
+                          columns=['DM']
+                         ,values=['ID']
+                         ,aggfunc='count'
+)
+
+# dm_grp
+
+label_pie = dm_grp.columns.to_list()
+label_pie
+
+data_pie = dm_grp.iloc[0,:].to_list()
+# data_pie
+
+# %%
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] < 6.5)                          ,'DM_HbA1c'] = '01_~6.4'
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] > 6.4) & (data['BL3164'] <  7.0),'DM_HbA1c'] = '02_6.5~6.9'
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] > 6.9) & (data['BL3164'] <  8.0),'DM_HbA1c'] = '03_7.0~7.9'
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] > 7.9) & (data['BL3164'] <  9.0),'DM_HbA1c'] = '04_8.0~8.9'
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] > 8.9) & (data['BL3164'] < 10.0),'DM_HbA1c'] = '05_9.0~9.9'
+data.loc[(data['DM']=='당뇨병') & (data['BL3164'] > 9.9)                          ,'DM_HbA1c'] = '06_10.0~'
+
+# data
+
+DM_HbA1c_cat = data.pivot_table(
+                              columns=['DM_HbA1c']
+                             ,values=['ID'] 
+                             ,aggfunc='count'
+                             )
+DM_HbA1c_cat
+# %%
+data_bar = DM_HbA1c_cat.iloc[0,:].to_list()
+data_bar
+
+data_bar_per = []
+
+for i in range(len(data_bar)):
+    data_bar_per.append(round(data_bar[i]/data_pie[0],3))
+
+data_bar_per
+
+label_bar = ['6.4 이하'
+            ,'6.5~6.9'
+            ,'7.0~7.9'
+            ,'8.0~8.9'
+            ,'9.0~9.9'
+            ,'10.0 이상'
+            ]
+
+label_bar
+# %%
+# make figure and assign axis objects
+fig = plt.figure(figsize=(12, 12))
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
+fig.subplots_adjust(wspace=0.1)
+
+# pie chart parameters
+ratios = data_pie
+pie_labels = label_pie
+explode = [0.05, 0, 0]
+colors = plt.get_cmap('Set2')(
+np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
+)
+
+def func(pct, allvals):
+    absolute = int(round(pct/100.*np.sum(allvals)))
+#     return "{:.1f}%\n({:,d})".format(pct, absolute) # %값(수치)로 표현하고 싶을 때, 1000 단위 마다 (,)표시하기
+    return "{:,d}\n({:.1f}%)".format(absolute, pct) # 수치(%값)로 표현하고 싶을 때1000 단위미다 ','표시
+
+# rotate so that first wedge is split by the x-axis
+ax1.pie(ratios, autopct=lambda pct: func(pct, ratios)
+        , startangle=-15, labels=pie_labels, explode=explode, colors=colors
+,textprops=dict(color="black",fontsize=22)
+)
+
+# bar chart parameters
+xpos = 0.05
+bottom = 0
+ratios = data_bar_per #bar chart using category percentile
+width = .2
+colors = plt.get_cmap('coolwarm')(
+np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
+)
+
+for j in range(len(ratios)):
+    height = ratios[j]
+    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j],alpha=0.7)
+    ypos = bottom + ax2.patches[j].get_height() / 2
+    bottom += height
+    ax2.text(xpos, ypos, "%1.1f%%" % (ax2.patches[j].get_height() * 100),
+             ha='center',color="black",fontsize=15)
+# ax2.text(xpos, ypos, "%d%%" % (ax2.patches[j].get_height() * 100),
+# ha='center')
+
+ax2.set_title('분포(%)', fontsize=17)
+
+# plt.text(-1.35, -0.005, '   ', fontsize=22)
+plt.text(-1.35, -0.005,  '당화혈색소 분류 기준:', fontsize=22)
+lg = ax2.legend(label_bar
+               ,bbox_to_anchor=(-0.85,-0.105)
+               ,ncol=3
+               ,loc='lower left' ,fontsize=15
+               )
+plt.text(-1.6, -0.15,  '  ', fontsize=22)
+# ax2.legend(label_bar,
+# title="결과 분류",
+# title_fontsize=20,
+# loc="center left",
+# bbox_to_anchor=(0.65,0, 0.5, 1),
+# fontsize=20
+# )
+ax2.axis('off')
+ax2.set_xlim(- 2.5 * width, 2.5 * width)
+
+# use ConnectionPatch to draw lines between the two plots
+# get the wedge data
+theta1, theta2 = ax1.patches[0].theta1, ax1.patches[0].theta2
+center, r = ax1.patches[0].center, ax1.patches[0].r
+bar_height = sum([item.get_height() for item in ax2.patches])
+
+# draw top connecting line
+x = r * np.cos(np.pi / 180 * theta2) + center[0]
+y = np.sin(np.pi / 180 * theta2) + center[1]
+con = ConnectionPatch(xyA=(- width / 3, bar_height), xyB=(x, y),
+coordsA="data", coordsB="data", axesA=ax2, axesB=ax1)
+con.set_color([0, 0, 0])
+con.set_linewidth(2)
+ax2.add_artist(con)
+
+# draw bottom connecting line
+x = r * np.cos(np.pi / 180 * theta1) + center[0] 
+y = np.sin(np.pi / 180 * theta1) + center[1]
+con = ConnectionPatch(xyA=(- width / 3, 0), xyB=(x, y), coordsA="data",
+coordsB="data", axesA=ax2, axesB=ax1)
+con.set_color([0, 0, 0])
+ax2.add_artist(con)
+con.set_linewidth(2)
+ 
+# ax1.set_title("복부초음파에서 지방간 현황(2020년)\n\n",fontsize=30)
+# ax2.set_title("  \n\n",fontsize=30)
+# all subplot's title setting
+plt.suptitle('당뇨병 유병자의 당화혈색소 분포(2020년)\n\n',fontsize=30)
+
+fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
+
+# fig.tight_layout()
+
+plt.savefig("{}/02_02당뇨병_05당뇨유병자당화혈색소.png".format(workdir[:-5])
+            , dpi=175 #72의 배수 ,edgecolor='black'
+           )
+ 
+plt.show()
 # %%
