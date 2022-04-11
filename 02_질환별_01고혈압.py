@@ -24,9 +24,9 @@ data = pd.read_stata(file_path)
 # 조건별 그룹 설정
 ### 정상, 기타 결과 그룹 분리
 GRP = 'BP'
-data.loc[(data['SBP'] < 120) & (data['DBP'] < 80) & (data['TRT_MED_HYPERTENSION'] != '1'), GRP] = 'OPTIMAL'
-data.loc[(data['SBP'] >= 140) | (data['DBP'] >= 90) | (data['TRT_MED_HYPERTENSION'] == '1'), GRP] = '고혈압'
-data['BP'].fillna('고혈압전단계',inplace=True)
+data.loc[(data['SBP'] < 120) & (data['DBP'] < 80) & (data['TRT_MED_HYPERTENSION'] != '1'), GRP] = '03_OPTIMAL'
+data.loc[(data['SBP'] >= 140) | (data['DBP'] >= 90) | (data['TRT_MED_HYPERTENSION'] == '1'), GRP] = '01_고혈압'
+data['BP'].fillna('02_고혈압전단계',inplace=True)
 
 data.loc[data['GEND_CD'] == 'M', 'GENDER'] = '남'
 data.loc[data['GEND_CD'] == 'F', 'GENDER'] = '여'
@@ -41,7 +41,7 @@ data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 
 #%%
 ### 특정 그룹 별도 저장
-bp_ctrl = data.drop(data.loc[data[GRP]!='고혈압'].index)
+bp_ctrl = data.drop(data.loc[data[GRP]!='01_고혈압'].index)
 bp_ctrl.loc[(bp_ctrl['SBP'] < 140) & (bp_ctrl['DBP'] < 90), '{}_CTRL_YN'.format(GRP)] = '조절되는 그룹' # globals()['{}_CTRL_YN'.format(GRP)]
 bp_ctrl['BP_CTRL_YN'].fillna('조절되지 않는 그룹',inplace=True)
 # bp_ctrl
@@ -488,7 +488,7 @@ bp_ctrl_agegrp_subt.columns = bp_agegrp.columns = pd.MultiIndex.from_tuples(
 bp_ctrl_agegrp_subt
 #%%
 # Bar chart create
-value01 = bp_per_subt.iloc[1,:-1]
+value01 = bp_per_subt.iloc[0,:-1]
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
 width = 0.35  # the width of the bars
@@ -546,8 +546,8 @@ plt.savefig("{}/02_01고혈압_01유병율.png".format(workdir[:-5])
 
 # plt.show()
 #%%
-value01 = bp_per_m.iloc[1,:-1]
-value02 = bp_per_f.iloc[1,:-1]
+value01 = bp_per_m.iloc[0,:-1]
+value02 = bp_per_f.iloc[0,:-1]
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
 width = 0.35  # the width of the bars
