@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 mpl.rc('font',family=font_name)
 
 #%%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 file_path = '{}/NUM_DATA.dta'.format(workdir)
 
 data = pd.read_stata(file_path)
@@ -39,8 +39,8 @@ data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 #%%
 ### 특정 그룹 별도 저장
 dysl_ctrl = data.drop(data.loc[data[GRP]!='이상지질혈증'].index)
-dysl_ctrl.loc[(dysl_ctrl['TRT_MED_HYPERLIPIDEMIA'] == '1'), '{}_CTRL_YN'.format(GRP)] = '치료군'
-dysl_ctrl['{}_CTRL_YN'.format(GRP)].fillna('비치료군',inplace=True)
+dysl_ctrl.loc[(dysl_ctrl['TRT_MED_HYPERLIPIDEMIA'] == '1'), '{}_CTRL_YN'.format(GRP)] = '치료되는 그룹'
+dysl_ctrl['{}_CTRL_YN'.format(GRP)].fillna('치료되지 않는 그룹',inplace=True)
 # dysl_ctrl
 # dysl_ctrl
 data_m = data.drop(data.loc[data['GEND_CD']=='F'].index)
@@ -536,7 +536,7 @@ plt.text(-0.3, -12.5, '① 건진 당일 측정한 총콜레스테롤 ≥ 240mg/
 plt.text(-0.3, -15, '② 건진 당일 측정한 LDL ≥ 160mg/dl', fontsize=17)
 plt.text(-0.3, -17.5, '③ 건진 당일 측정한 TG ≥ 200mg/dl', fontsize=17)
 plt.text(-0.3, -20, '④ 건진 당일 측정한 HDL < 40mg/dl', fontsize=17)
-plt.text(-0.3, -22.5, '⑤ 문진에서 현재 고혈압 약물복용중으로 응답한 경우', fontsize=17)
+plt.text(-0.3, -22.5, '⑤ 문진에서 현재 고지혈증 약물복용중으로 응답한 경우', fontsize=17)
 fig.tight_layout()
 
 plt.savefig("{}/02_03이상지질혈증_01유병율.png".format(workdir[:-5])
@@ -597,7 +597,7 @@ plt.text(-0.3, -12.5, '① 건진 당일 측정한 총콜레스테롤 ≥ 240mg/
 plt.text(-0.3, -15, '② 건진 당일 측정한 LDL ≥ 160mg/dl', fontsize=17)
 plt.text(-0.3, -17.5, '③ 건진 당일 측정한 TG ≥ 200mg/dl', fontsize=17)
 plt.text(-0.3, -20, '④ 건진 당일 측정한 HDL < 40mg/dl', fontsize=17)
-plt.text(-0.3, -22.5, '⑤ 문진에서 현재 고혈압 약물복용중으로 응답한 경우', fontsize=17)
+plt.text(-0.3, -22.5, '⑤ 문진에서 현재 고지혈증 약물복용중으로 응답한 경우', fontsize=17)
 fig.tight_layout()
 
 plt.savefig("{}/02_03이상지질혈증_02성별유병율.png".format(workdir[:-5])
@@ -605,7 +605,7 @@ plt.savefig("{}/02_03이상지질혈증_02성별유병율.png".format(workdir[:-
 
 plt.show()
 #%%
-value01 = dysl_ctrl_per_subt.iloc[1,:-1]
+value01 = dysl_ctrl_per_subt.iloc[0,:-1]# 조절군 명칭변경으로 순서조정
 
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
@@ -658,13 +658,13 @@ plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/02_03이상지질혈증_03조절율.png".format(workdir[:-5])
+plt.savefig("{}/02_03이상지질혈증_03치료율.png".format(workdir[:-5])
            , dpi=175)
 
 plt.show()
 #%%
-value01 = dysl_ctrl_per_m.iloc[1,:-1]
-value02 = dysl_ctrl_per_f.iloc[1,:-1]
+value01 = dysl_ctrl_per_m.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
+value02 = dysl_ctrl_per_f.iloc[0,:-1] # 조절군 명칭변경으로 순서조정
 
 x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
 width = 0.35  # the width of the bars
@@ -720,7 +720,7 @@ plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/02_03이상지질혈증_04연령별조절율.png".format(workdir[:-5])
+plt.savefig("{}/02_03이상지질혈증_04연령별치료율.png".format(workdir[:-5])
            , dpi=175)
 
 plt.show()
