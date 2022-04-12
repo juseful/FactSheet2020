@@ -525,357 +525,8 @@ for i in range(len(ABD_P_MASS_cnt_subt.columns)):
         )
 
 # ABD_P_MASS_agegrp_subt
-#%%
-value01 = ABD_P_CYST_per_subt.iloc[0,:-1]
 
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
 
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-# rects1 = ax.bar(x,  value01, width, label='전체',color='cornflowerblue')
-rects1 = ax.bar(x,  value01, width,color='cornflowerblue')
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 복부 CT/MRI 췌장 낭종 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
-
-autolabel(rects1)
-
-plt.text(-0.3, -8, '          ', fontsize=17)
-
-fig.tight_layout()
-
-plt.savefig("{}/03_06_복부CTMR_01췌장낭종_01연령별유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
-
-# plt.show()
-# %%
-value01 = ABD_P_CYST_per_m.iloc[0,:-1]
-value02 = ABD_P_CYST_per_f.iloc[0,:-1]
-
-label01 = '남자'
-label02 = '여자'
-
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
-
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.85,np.array(ABD_P_CYST_per_m.iloc[0,:-1]).shape[0]))[5])
-rects2 = ax.bar(x + 0.2, value02, width, label=label02,color='coral')
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('성별 연령별 복부 CT/MRI 췌장 낭종 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-ax.legend(fontsize=17)
-
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
-
-autolabel(rects1)
-autolabel(rects2)
-
-plt.text(-0.3, -9, '          ', fontsize=17)
-
-fig.tight_layout()
-
-plt.savefig("{}/03_06_복부CTMR_01췌장낭종_02성별유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
-
-# plt.show()
-
-# %%
-value01 = ABD_P_MASS_per_subt.iloc[0,:-1]
-
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
-
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-# rects1 = ax.bar(x,  value01, width, label='전체',color='cornflowerblue')
-rects1 = ax.bar(x,  value01, width,color='cornflowerblue')
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 복부 CT/MRI 췌장 종괴 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
-
-autolabel(rects1)
-
-plt.text(-0.3, -0.22, '          ', fontsize=17)
-
-fig.tight_layout()
-
-plt.savefig("{}/03_06_복부CTMR_02췌장종괴_01유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
-
-# plt.show()
-# %%
-value01 = ABD_P_MASS_per_m.iloc[0,:-1]
-value02 = ABD_P_MASS_per_f.iloc[0,:-1]
-
-label01 = '남자'
-label02 = '여자'
-
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
-
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.85,np.array(ABD_P_MASS_per_m.iloc[0,:-1]).shape[0]))[5])
-rects2 = ax.bar(x + 0.2, value02, width, label=label02,color='coral')
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('성별 연령별 복부 CT/MRI 췌장 종괴 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-ax.legend(fontsize=17)
-
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
-
-autolabel(rects1)
-autolabel(rects2)
-
-plt.text(-0.3, -0.22, '          ', fontsize=17)
-
-fig.tight_layout()
-
-plt.savefig("{}/03_06_복부CTMR_02췌장종괴_02연령별유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
-
-# plt.show()
-# %%
-value01 = ABD_P_CYST_per_subt.iloc[0,:-1]
-value02 = ABD_P_MASS_per_subt.iloc[0,:-1]
-
-label01 = '췌장 낭종'
-label02 = '췌장 종괴'
-
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
-
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
-rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 복부 CT/MRI 질환별 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-ax.legend(fontsize=17)
-
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
-
-autolabel(rects1)
-autolabel(rects2)
-
-plt.text(-0.3, -8, '          ', fontsize=17)
-
-fig.tight_layout()
-
-plt.savefig("{}/03_06_복부CTMR_03췌장낭종종괴_01유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
-# # %%
-# value01 = ABD_P_CYST_per_m.iloc[0,:-1]
-# value02 = ABD_P_MASS_per_m.iloc[0,:-1]
-# value03 = ABD_P_CYST_per_f.iloc[0,:-1]
-# value04 = ABD_P_MASS_per_f.iloc[0,:-1]
-
-# label01 = '췌장 낭종(남)'
-# label02 = '췌장 종괴(남)'
-# label03 = '췌장 낭종(여)'
-# label04 = '췌장 종괴(여)'
-
-# x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-# width = 0.2  # the width of the bars
-
-# # fig, ax = plt.subplots()
-# fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-# fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-# rects1 = ax.bar(x - 0.3, value01, width, label=label01,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.85,np.array(ABD_P_MASS_per_m.iloc[0,:-1]).shape[0]))[5])
-# rects2 = ax.bar(x - 0.1, value02, width, label=label02,color=plt.get_cmap('PuBu')(np.linspace(0.15, 0.85,np.array(ABD_P_MASS_per_m.iloc[0,:-1]).shape[0]))[5])
-# rects3 = ax.bar(x + 0.1, value03, width, label=label03,color='coral')
-# rects4 = ax.bar(x + 0.3, value04, width, label=label04,color='brown')
-
-# # Add some text for labels, title and custom x-axis tick labels, etc.
-# ax.set_title('복부 CT/MRI에서 질환별 연령별 유병률(2020년)\n\n',fontsize=30)
-# ax.set_ylabel(
-#                 '(단위: %)' # 표시값
-#                  ,labelpad=-70 # 여백값 설정
-#                 ,fontsize=20 # 글씨크기 설정
-#                 ,rotation=0 # 회전값 조정
-# #                 ,ha='center' # 위치조정
-#                 ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-#             )
-# ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-# ax.set_xticks(x)
-# ax.set_xticklabels(
-#                    labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-#                   , fontsize=17
-#                   )
-# ax.legend(fontsize=17)
-
-# # bar위에 값 label 표시
-# def autolabel(rects):
-#     """Attach a text label above each bar in *rects*, displaying its height."""
-#     for rect in rects:
-#         height = rect.get_height()
-#         ax.annotate(height, 
-#                     xy=(rect.get_x() + rect.get_width() / 2, height),
-#                     xytext=(0, 8),  # 3 points vertical offset
-#                     textcoords="offset points",
-#                     ha='center', va='bottom'
-#                    ,fontsize=18
-#                    )
-
-# autolabel(rects1)
-# autolabel(rects2)
-# autolabel(rects3)
-# autolabel(rects4)
-
-# fig.tight_layout()
-
-# # plt.savefig("{}/03_06_복부CTMR_03췌장낭종종괴_02연령별유병률.png".format(workdir[:-5])
-# #             , dpi=175 #72의 배수 ,edgecolor='black'
-# #            )
 # %%
 value01 = ABD_P_CYST_per_m.iloc[0,:-1]
 value02 = ABD_P_MASS_per_m.iloc[0,:-1]
@@ -894,7 +545,7 @@ rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('PuBuG
 rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('성별 연령별 복부 CT/MRI 질환별 유병률(2020년, 남자)\n\n',fontsize=30)
+ax.set_title('성별 연령별 복부 CT/MRI 췌장 병변 유병률(2020년, 남자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -931,7 +582,7 @@ plt.text(-0.3, -8.5, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_06_복부CTMR_03췌장낭종종괴_02유병률_남자.png".format(workdir[:-5])
+plt.savefig("{}/03_06_복부CTMR_췌장병변_02유병률_남자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 # %%
@@ -952,7 +603,7 @@ rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('PuBuG
 rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('성별 연령별 복부 CT/MRI 질환별 유병률(2020년, 여자)\n\n',fontsize=30)
+ax.set_title('성별 연령별 복부 CT/MRI 췌장 병변 유병률(2020년, 여자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -988,7 +639,7 @@ autolabel(rects2)
 plt.text(-0.3, -6.8, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_06_복부CTMR_03췌장낭종종괴_03유병률_여자.png".format(workdir[:-5])
+plt.savefig("{}/03_06_복부CTMR_췌장병변_03유병률_여자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 # %%
