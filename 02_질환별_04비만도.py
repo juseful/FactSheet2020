@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 mpl.rc('font',family=font_name)
 
 #%%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 file_path = '{}/NUM_DATA.dta'.format(workdir)
 
 data = pd.read_stata(file_path)
