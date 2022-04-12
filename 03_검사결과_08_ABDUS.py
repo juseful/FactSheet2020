@@ -92,7 +92,7 @@ fattyliver_cat = data.pivot_table(
                              )
 fattyliver_cat
 
-data_bar = fattyliver_cat.iloc[0,1:-1].to_list()
+data_bar = fattyliver_cat.iloc[0,1:].to_list()
 # data_bar
 
 data_bar_per = []
@@ -103,7 +103,7 @@ for i in range(len(data_bar)):
 # data_bar_per
 
 label_bar = []
-cat_columns = fattyliver_cat.columns.to_list()[1:-1]
+cat_columns = fattyliver_cat.columns.to_list()[1:]
 for i in range(len(cat_columns)):
     label_bar.append(cat_columns[i][3:])
 
@@ -120,14 +120,21 @@ fig.subplots_adjust(wspace=0.1)
 ratios = data_pie
 labels = ['Fatty liver','Absent']
 explode = [0.05, 0]
-colors = plt.get_cmap('Set2')(
-np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
-)
+colors_pie = ['coral','lightgreen']
+# colors = plt.get_cmap('Set2')(
+# np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
+# )
+
+def func(pct, allvals):
+    absolute = int(round(pct/100.*np.sum(allvals)))
+#     return "{:.1f}%\n({:,d})".format(pct, absolute) # %값(수치)로 표현하고 싶을 때, 1000 단위 마다 (,)표시하기
+    return "{:,d}\n({:.1f}%)".format(absolute, pct) # 수치(%값)로 표현하고 싶을 때1000 단위미다 ','표시
 
 # rotate so that first wedge is split by the x-axis
-ax1.pie(ratios, autopct='%1.1f%%', startangle=-75,
-labels=labels, explode=explode, colors=colors
-,textprops=dict(color="black",fontsize=25)
+ax1.pie(ratios, autopct=lambda pct: func(pct, ratios)
+        , startangle=-75, labels=labels, explode=explode, colors=colors_pie
+,textprops=dict(color="black",fontsize=22)
+,shadow=True
 )
 
 # bar chart parameters
@@ -135,13 +142,20 @@ xpos = 0
 bottom = 0
 ratios = data_bar_per #bar chart using category percentile
 width = .2
-colors = plt.get_cmap('coolwarm')(
-np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
-)
+colors_bar = [plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[5]
+             ,plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[6]
+             ,plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[3]
+             ,plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[2]
+             ,plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[1]
+             ,plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[0]
+             ]
+# colors_bar = plt.get_cmap('coolwarm')(
+# np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
+# )
 
 for j in range(len(ratios)):
     height = ratios[j]
-    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j])
+    ax2.bar(xpos, height, width, bottom=bottom, color=colors_bar[j])
     ypos = bottom + ax2.patches[j].get_height() / 2
     bottom += height
     ax2.text(xpos, ypos, "%1.1f%%" % (ax2.patches[j].get_height() * 100),
@@ -200,9 +214,9 @@ fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 # fig.tight_layout()
 
-# plt.savefig("{}/03_08_ABDUS_01Fattylivercat.png".format(workdir[:-5])
-#             , dpi=175 #72의 배수 ,edgecolor='black'
-#            )
+plt.savefig("{}/03_05_ABDUS_01Fattylivercat.png".format(workdir[:-5])
+            , dpi=175 #72의 배수 ,edgecolor='black'
+           )
  
 # plt.show()
 
@@ -507,7 +521,7 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
 plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_08_ABDUS_02성별지방간분포_남자.png".format(workdir[:-5])
+plt.savefig("{}/03_05_ABDUS_02성별지방간분포_남자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 
@@ -587,14 +601,14 @@ lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
 plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_08_ABDUS_03성별지방간분포_여자.png".format(workdir[:-5])
+plt.savefig("{}/03_05_ABDUS_03성별지방간분포_여자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 # %%
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
-    fattyliver_agegrp_subt.to_excel(writer,sheet_name="03_08_1ABDUS_FL")
-    fattyliver_agegrp.to_excel(writer,sheet_name="03_08_2ABDUS_FL_GENDER")
+    fattyliver_agegrp_subt.to_excel(writer,sheet_name="03_05_1ABDUS_FL")
+    fattyliver_agegrp.to_excel(writer,sheet_name="03_05_2ABDUS_FL_GENDER")
 # %%
 fattyliver_cat
 # %%
