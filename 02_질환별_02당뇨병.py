@@ -729,14 +729,6 @@ plt.savefig("{}/02_02당뇨병_04성별조절율.png".format(workdir[:-5])
 plt.show()
 
 #%%
-# data merge, export
-with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
-    dm_agegrp_t.to_excel(writer,sheet_name="02_02당뇨병유병율")
-    dm_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별유병율")
-    dm_ctrl_agegrp_t.to_excel(writer,sheet_name="02_02당뇨병조절율")
-    dm_ctrl_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별조절율")
-
-#%%
 dm_grp = data.pivot_table(
                           columns=['DM']
                          ,values=['ID']
@@ -778,12 +770,12 @@ for i in range(len(data_bar)):
 
 data_bar_per
 
-label_bar = ['6.4 이하'
-            ,'6.5~6.9'
-            ,'7.0~7.9'
-            ,'8.0~8.9'
-            ,'9.0~9.9'
-            ,'10.0 이상'
+label_bar = ['6.4% 이하'
+            ,'6.5%~6.9%'
+            ,'7.0%~7.9%'
+            ,'8.0%~8.9%'
+            ,'9.0%~9.9%'
+            ,'10.0% 이상'
             ]
 
 label_bar
@@ -797,10 +789,12 @@ fig.subplots_adjust(wspace=0.1)
 # pie chart parameters
 ratios = data_pie
 pie_labels = label_pie
-explode = [0.05, 0, 0]
-colors = plt.get_cmap('Set2')(
-np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
-)
+explode = [0.07, 0.02, 0.02]
+colors_pie = ['coral', 'wheat', 'lightgreen'] # '#99e472'
+# colors_pie = ['#ff9999', '#ffc000', '#99e472'] # '#99e472'
+# colors = plt.get_cmap('Set2_r')(
+# np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
+# )
 
 def func(pct, allvals):
     absolute = int(round(pct/100.*np.sum(allvals)))
@@ -809,8 +803,9 @@ def func(pct, allvals):
 
 # rotate so that first wedge is split by the x-axis
 ax1.pie(ratios, autopct=lambda pct: func(pct, ratios)
-        , startangle=-15, labels=pie_labels, explode=explode, colors=colors
+        , startangle=-15, labels=pie_labels, explode=explode, colors=colors_pie
 ,textprops=dict(color="black",fontsize=22)
+,shadow=True
 )
 
 # bar chart parameters
@@ -818,13 +813,23 @@ xpos = 0.05
 bottom = 0
 ratios = data_bar_per #bar chart using category percentile
 width = .2
-colors = plt.get_cmap('coolwarm')(
-np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
-)
+colors_bar = [
+       [0.4148009 , 0.54687353, 0.93908753, 1.        ],
+       [0.60854736, 0.73572523, 0.99935383, 1.        ],
+       [0.92811601, 0.82219715, 0.76514135, 1.        ],
+       [0.96771093, 0.66297301, 0.54432319, 1.        ],
+       [0.89213754, 0.42538874, 0.33328927, 1.        ],
+       'red'
+       ]
+# colors_bar = ['cornflowerblue','skyblue','mistyrose','lightpink','salmon','red']
+# colors_bar = ['#4a8ddc','#b5dafe','#ffbbed','#fd6252','#ffa500','#d82c20']
+# colors_bar = plt.get_cmap('coolwarm')(
+# np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
+# )
 
 for j in range(len(ratios)):
     height = ratios[j]
-    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j],alpha=0.7)
+    ax2.bar(xpos, height, width, bottom=bottom, color=colors_bar[j],alpha=0.7)
     ypos = bottom + ax2.patches[j].get_height() / 2
     bottom += height
     ax2.text(xpos, ypos, "%1.1f%%" % (ax2.patches[j].get_height() * 100),
@@ -890,4 +895,29 @@ plt.savefig("{}/02_02당뇨병_05당뇨유병자당화혈색소.png".format(work
            )
  
 plt.show()
+
+#%%
+fig = plt.figure(figsize=(12, 12))
+fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
+plt.text(0.15, -0.20,  '전당뇨: 다음 네 가지 기준 중 하나라도 만족', fontsize=22)
+plt.text(0.17, -0.25, '① 건진 당일 측정한 공복혈당 100 ~ 125 mg/dL', fontsize=17)
+plt.text(0.17, -0.30, '② 건진 당일 측정한 당화혈색소(HbA1c) 5.7% ~ 6.5%', fontsize=17)
+plt.text(0.17, -0.35, '③ 문진에서 현재 당뇨약을 복용하지 않는다고 응답한 경우', fontsize=17)
+plt.text(0.17, -0.40, '④ 문진에서 현재 인슐린 치료를 받지 않는다고 응답한 경우', fontsize=17)
+plt.text(0.17, -0.45, '          ', fontsize=17)
+fig.tight_layout()
+
+plt.savefig("{}/02_02당뇨병_05당뇨유병자당화혈색소_코멘트.png".format(workdir[:-5])
+            , dpi=175 #72의 배수 ,edgecolor='black'
+           )
+
+#%%
+# data merge, export
+with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
+    dm_agegrp_t.to_excel(writer,sheet_name="02_02당뇨병유병율")
+    dm_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별유병율")
+    dm_ctrl_agegrp_t.to_excel(writer,sheet_name="02_02당뇨병조절율")
+    dm_ctrl_agegrp.to_excel(writer,sheet_name="02_02당뇨병성별조절율")
+    
 # %%
+colors_bar
