@@ -1070,7 +1070,7 @@ rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap
 rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 저선량 폐CT 결과 분포(2020년)\n\n',fontsize=30)
+ax.set_title('연령별 저선량 폐CT 결절성 병변 결과 분포(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -1105,7 +1105,7 @@ autolabel(rects3)
 autolabel(rects4)
 # autolabel(rects3)
 
-plt.text(-0.7, -10,  '저선량 폐CT 결과분류:', fontsize=22)
+plt.text(-0.7, -10,  '저선량 폐CT 결절성 병변 분류:', fontsize=22)
 lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
           ,ncol=2  ,loc='lower left' ,fontsize=15
           )
@@ -1113,7 +1113,7 @@ plt.text(-0.3, -26, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_04_LDCT_01유병률.png".format(workdir[:-5])
+plt.savefig("{}/03_02_LDCT_01유병률.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
             )
 
@@ -1145,7 +1145,7 @@ rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap
 rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 저선량 폐CT 결과 분포(2020년, 남자)\n\n',fontsize=30)
+ax.set_title('연령별 저선량 폐CT 결절성 병변 결과 분포(2020년, 남자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -1180,7 +1180,7 @@ autolabel(rects3)
 autolabel(rects4)
 # autolabel(rects3)
 
-plt.text(-0.7, -10,  '저선량 폐CT 결과분류:', fontsize=22)
+plt.text(-0.7, -10,  '저선량 폐CT 결절성 병변 분류:', fontsize=22)
 lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
           ,ncol=2  ,loc='lower left' ,fontsize=15
           )
@@ -1188,7 +1188,7 @@ plt.text(-0.3, -26, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_04_LDCT_02남자유병률.png".format(workdir[:-5])
+plt.savefig("{}/03_02_LDCT_02남자유병률.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
             )
 
@@ -1219,7 +1219,7 @@ rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap
 rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 저선량 폐CT 결과 분포(2020년, 여자)\n\n',fontsize=30)
+ax.set_title('연령별 저선량 폐CT 결절성 병변 결과 분포(2020년, 여자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -1254,7 +1254,7 @@ autolabel(rects3)
 autolabel(rects4)
 # autolabel(rects3)
 
-plt.text(-0.7, -10,  '저선량 폐CT 결과분류:', fontsize=22)
+plt.text(-0.7, -10,  '저선량 폐CT 결절성 병변 분류:', fontsize=22)
 lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
           ,ncol=2  ,loc='lower left' ,fontsize=15
           )
@@ -1262,7 +1262,7 @@ plt.text(-0.3, -26, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_04_LDCT_03여자유병률.png".format(workdir[:-5])
+plt.savefig("{}/03_02_LDCT_03여자유병률.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
             )
 
@@ -1272,8 +1272,8 @@ plt.show()
 # data merge, export
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
-    RC1241_agegrp_subt.to_excel(writer,sheet_name="03_04LDCT")
-    RC1241_agegrp.to_excel(writer,sheet_name="03_04LDCT_GENDER")
+    RC1241_agegrp_subt.to_excel(writer,sheet_name="03_02LDCT")
+    RC1241_agegrp.to_excel(writer,sheet_name="03_02LDCT_GENDER")
     # RC1241_agegrp_m.to_excel(writer,sheet_name="03_04LDCT_M")
     # RC1241_agegrp_f.to_excel(writer,sheet_name="03_04LDCT_F")
 
