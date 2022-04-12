@@ -15,7 +15,7 @@ font_name = font_manager.FontProperties(fname=font_path).get_name()
 #폰트 설정하기
 mpl.rc('font',family=font_name)
 # %%
-workdir = ""
+workdir = "C:/Users/smcljy/data/20211115_Factsheet/data"
 
 file_path = '{}/BL3713.dta'.format(workdir)
 
@@ -162,7 +162,7 @@ value = psa_cnt.iloc[-1,:-1]
 fig, ax = plt.subplots(figsize=(12, 15), subplot_kw=dict(aspect="equal"),linewidth=2)
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-ax.set_title("PSA 연령별 검사 현황(2020년)\n\n",fontsize=35)
+ax.set_title("연령별 PSA 검사 현황(2020년)\n\n",fontsize=35)
 
 def func(pct, allvals):
     absolute = int(round(pct/100.*np.sum(allvals)))
@@ -207,86 +207,86 @@ plt.text(-0.3, -1.8, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_01검사현황.png".format(workdir[:-5])
+plt.savefig("{}/03_09PSA_01검사현황.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
             )
 
 plt.show()
 # %%
-value01 = psa_per.iloc[0,:-1]
-value02 = psa_per.iloc[1,:-1]
-value03 = psa_per.iloc[2,:-1]
-value04 = psa_per.iloc[3,:-1]
+# value01 = psa_per.iloc[0,:-1]
+# value02 = psa_per.iloc[1,:-1]
+# value03 = psa_per.iloc[2,:-1]
+# value04 = psa_per.iloc[3,:-1]
 
-label1 = '0~2.4 ng/ml'
-label2 = '2.5~3.9 ng/ml'
-label3 = '4.0~9.9 ng/ml'
-label4 = '10.0~ ng/ml'
+# label1 = '0~2.4 ng/ml'
+# label2 = '2.5~3.9 ng/ml'
+# label3 = '4.0~9.9 ng/ml'
+# label4 = '10.0~ ng/ml'
 
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.22  # the width of the bars
+# x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
+# width = 0.22  # the width of the bars
 
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
+# # fig, ax = plt.subplots()
+# fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
+# fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
-# rects1 = ax.bar(x - width-0.17 , value01, width, label=label1,color='lightslategray') RdYlBu
-rects1 = ax.bar(x - width-0.15, value01, width, label=label1, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
-rects2 = ax.bar(x - width+0.1 , value02, width, label=label2, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
-rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
-rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
+# # rects1 = ax.bar(x - width-0.17 , value01, width, label=label1,color='lightslategray') RdYlBu
+# rects1 = ax.bar(x - width-0.15, value01, width, label=label1, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
+# rects2 = ax.bar(x - width+0.1 , value02, width, label=label2, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
+# rects3 = ax.bar(x + width-0.1 , value03, width, label=label3, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+# rects4 = ax.bar(x + width+0.15, value04, width, label=label4, color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('PSA 결과 분포(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
+# # Add some text for labels, title and custom x-axis tick labels, etc.
+# ax.set_title('PSA 결과 분포(2020년)\n\n',fontsize=30)
+# ax.set_ylabel(
+#                 '(단위: %)' # 표시값
+#                  ,labelpad=-70 # 여백값 설정
+#                 ,fontsize=20 # 글씨크기 설정
+#                 ,rotation=0 # 회전값 조정
+# #                 ,ha='center' # 위치조정
+#                 ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
+#             )
+# ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
+# ax.set_xticks(x)
+# ax.set_xticklabels(
+#                    labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
+#                   , fontsize=17
+#                   )
 
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, # 천단위마다 콤마 표시
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
+# # bar위에 값 label 표시
+# def autolabel(rects):
+#     """Attach a text label above each bar in *rects*, displaying its height."""
+#     for rect in rects:
+#         height = rect.get_height()
+#         ax.annotate(height, # 천단위마다 콤마 표시
+#                     xy=(rect.get_x() + rect.get_width() / 2, height),
+#                     xytext=(0, 8),  # 3 points vertical offset
+#                     textcoords="offset points",
+#                     ha='center', va='bottom'
+#                    ,fontsize=18
+#                    )
 
-autolabel(rects1)
-autolabel(rects2)
-autolabel(rects3)
-autolabel(rects4)
+# autolabel(rects1)
+# autolabel(rects2)
 # autolabel(rects3)
+# autolabel(rects4)
+# # autolabel(rects3)
 
-plt.text(-0.7, -5.5,  'PSA 분류기준:', fontsize=22)
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
-          ,ncol=4  ,loc='lower left' ,fontsize=15
-          )
-plt.text(-0.3, -10, '          ', fontsize=17)
-plt.text(-0.3, -12, '          ', fontsize=17)
-# plt.text(-0.3, -18, '          ', fontsize=17)
+# plt.text(-0.7, -5.5,  'PSA 분류기준:', fontsize=22)
+# lg = ax.legend(bbox_to_anchor=(-0.01,-0.205)
+#           ,ncol=4  ,loc='lower left' ,fontsize=15
+#           )
+# plt.text(-0.3, -10, '          ', fontsize=17)
+# plt.text(-0.3, -12, '          ', fontsize=17)
+# # plt.text(-0.3, -18, '          ', fontsize=17)
 
-fig.tight_layout()
+# fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-            )
+# plt.savefig("{}/03_02PSA_02결과분포.png".format(workdir[:-5])
+#             , dpi=175 #72의 배수 ,edgecolor='black'
+#             )
 
-plt.show()
+# plt.show()
 
 #%%
 # psa_agegrp_per.iloc[0,:-1].to_list()
@@ -320,7 +320,7 @@ rects4 = ax.bar(labels, value04, wCDWth, label=label4
                   ,bottom=[value01[i]+value02[i]+value03[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
-ax.set_title('PSA 연령별 결과 분포(2020년)\n\n',fontsize=30)
+ax.set_title('연령별 PSA 결과 분포(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -352,7 +352,7 @@ plt.text(-0.3, -30, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_02PSA_03연령별결과분포.png".format(workdir[:-5])
+plt.savefig("{}/03_09PSA_03연령별결과분포.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
             )
 
@@ -360,6 +360,6 @@ plt.show()
 # %%
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
-    psa_table.to_excel(writer,sheet_name="03_02PSA")
-    psa_table_agegrp.to_excel(writer,sheet_name="03_02PSA_agegrp")
+    psa_table.to_excel(writer,sheet_name="03_09PSA")
+    psa_table_agegrp.to_excel(writer,sheet_name="03_09PSA_agegrp")
 # %%
