@@ -32,12 +32,38 @@ data.loc[(data['AGE'] > 59) & (data['AGE'] < 70),'AGEGRP'] = '60~69세'
 data.loc[ data['AGE'] > 69                      ,'AGEGRP'] = '70세 이상'
 
 # %% 결과별 정리
-GRP01 = "골감소증"
+GRP01 = "골밀도정상"
+bmd_rslt_cd03 = ['11','111']
+data[GRP01] = (
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd03[0]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd03[1])
+    ).any(axis=1).astype(int)
+data.loc[data[GRP01] == 1,GRP01] = GRP01
+data.loc[data[GRP01] == 0,GRP01] = "기타결과"
+
+GRP02 = "골감소증"
+bmd_rslt_cd02 = ['112','12','121','122','21','211','212','22','221','222']
+data[GRP02] = (
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[0]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[1]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[2]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[3]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[4]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[5]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[6]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[7]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[8]) |
+    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[9]) 
+    ).any(axis=1).astype(int)
+data.loc[data[GRP02] == 1,GRP02] = GRP02
+data.loc[data[GRP02] == 0,GRP02] = "기타결과"
+
+GRP03 = "골다공증"
 bmd_rslt_cd01 = ['113','123','13','131','132','133','213','223','23','231','232','233'
                 ,'31','311','312','313','32','321','322','323','33','331','332','333'
                 ]
 
-data[GRP01] = (
+data[GRP03] = (
     (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd01[0]) |
     (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd01[1]) |
     (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd01[2]) |
@@ -63,48 +89,6 @@ data[GRP01] = (
     (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd01[22]) |
     (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd01[23])
     ).any(axis=1).astype(int)
-data.loc[data[GRP01] == 1,GRP01] = GRP01
-data.loc[data[GRP01] == 0,GRP01] = "기타결과"
-
-GRP02 = "골다공증"
-bmd_rslt_cd02 = ['112','12','121','122','123','132','21','211','212','213','22','221'
-                ,'222','223','23','231','232','233','312','32','321','322','323','332'
-                ]
-data[GRP02] = (
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[0]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[1]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[2]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[3]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[4]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[5]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[6]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[7]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[8]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[9]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[10]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[11]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[12]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[13]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[14]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[15]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[16]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[17]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[18]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[19]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[20]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[21]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[22]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd02[23])
-    ).any(axis=1).astype(int)
-data.loc[data[GRP02] == 1,GRP02] = GRP02
-data.loc[data[GRP02] == 0,GRP02] = "기타결과"
-
-GRP03 = "골밀도정상"
-bmd_rslt_cd03 = ['11','111']
-data[GRP03] = (
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd03[0]) |
-    (data.loc[:,'RSLT_CD01':'RSLT_CD03'] == bmd_rslt_cd03[1])
-    ).any(axis=1).astype(int)
 data.loc[data[GRP03] == 1,GRP03] = GRP03
 data.loc[data[GRP03] == 0,GRP03] = "기타결과"
 # data.loc[(data['{}_YN'.format(GRP01)] == "기타결과") & (data['{}_YN'.format(GRP02)] == "기타결과"),GRP03] = GRP03
@@ -119,7 +103,7 @@ data_f = data.drop(data.loc[data['GEND_CD']=='M'].index)
 
 #%%
 ## pivot table create
-## GRP01-골감소증
+## GRP01-정상
 BMD_GRP01_cnt_m = data_m.pivot_table(
                              index=[GRP01,'GENDER']
                             ,columns=['AGEGRP']
@@ -188,11 +172,11 @@ for i in range(len(BMD_GRP01_cnt_f.columns)):
                             ,axis=1
         )
         
-# BMD_GRP01_agegrp_f
+BMD_GRP01_agegrp_f
 
 #%%
 ## pivot table create
-## GRP02-골다공증
+## GRP02-골감소증
 BMD_GRP02_cnt_m = data_m.pivot_table(
                              index=[GRP02,'GENDER']
                             ,columns=['AGEGRP']
@@ -265,7 +249,7 @@ for i in range(len(BMD_GRP02_cnt_f.columns)):
 
 #%%
 ## pivot table create
-## GRP03-정상
+## GRP03-골다공증
 BMD_GRP03_cnt_m = data_m.pivot_table(
                              index=[GRP03,'GENDER']
                             ,columns=['AGEGRP']
@@ -407,9 +391,9 @@ value01 = BMD_GRP01_per_m.iloc[0,:-1].to_list()
 value02 = BMD_GRP02_per_m.iloc[0,:-1].to_list()
 value03 = BMD_GRP03_per_m.iloc[0,:-1].to_list()
 
-label01 = '골감소증'
-label02 = '골다공증'
-label03 = '정상'
+label01 = '정상: T-score ≥ -1.0'
+label02 = '골감소증: -2.5 < T-score < -1.0'
+label03 = '골다공증: T-score ≤ -2.5'
 
 width = 0.5       # the width of the bars: can also be len(x) sequence
 
@@ -419,13 +403,13 @@ fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이�
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 # rects1 = ax.bar(x,  value01, width, label='전체',color='cornflowerblue')
 rects1 = ax.bar(labels, value01, width, label=label01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
 rects2 = ax.bar(labels, value02, width, label=label02
                   ,bottom=value01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
 rects3 = ax.bar(labels, value03, width, label=label03
                   ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 
 ax.set_title('연령별 골밀도 검사결과 분포(2020년, 남자)\n\n',fontsize=30)
 ax.set_ylabel(
@@ -436,14 +420,14 @@ ax.set_ylabel(
 #                 ,ha='center' # 위치조정
                 ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
             )
-ax.yaxis.set_tick_params(labelsize=0) # y축 표시값 글씨크기 조정
+ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
 
 ax.set_xticklabels(
                    labels
                   , fontsize=17
                   )
 
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.175)
+lg = ax.legend(bbox_to_anchor=(-0.01,-0.185)
           ,ncol=3  ,loc='lower left' ,fontsize=15
           )
 plt.text(-0.5, -12,  '골밀도 결과분류 기준', fontsize=22)
@@ -470,9 +454,9 @@ value01 = BMD_GRP01_per_f.iloc[0,:-1].to_list()
 value02 = BMD_GRP02_per_f.iloc[0,:-1].to_list()
 value03 = BMD_GRP03_per_f.iloc[0,:-1].to_list()
 
-label01 = '골감소증'
-label02 = '골다공증'
-label03 = '정상'
+label01 = '정상: T-score ≥ -1.0'
+label02 = '골감소증: -2.5 < T-score < -1.0'
+label03 = '골다공증: T-score ≤ -2.5'
 
 width = 0.5       # the width of the bars: can also be len(x) sequence
 
@@ -482,13 +466,13 @@ fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이�
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 # rects1 = ax.bar(x,  value01, width, label='전체',color='cornflowerblue')
 rects1 = ax.bar(labels, value01, width, label=label01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
 rects2 = ax.bar(labels, value02, width, label=label02
                   ,bottom=value01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
 rects3 = ax.bar(labels, value03, width, label=label03
                   ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
+                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
 
 ax.set_title('연령별 골밀도 검사결과 분포(2020년, 여자)\n\n',fontsize=30)
 ax.set_ylabel(
@@ -499,14 +483,14 @@ ax.set_ylabel(
 #                 ,ha='center' # 위치조정
                 ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
             )
-ax.yaxis.set_tick_params(labelsize=0) # y축 표시값 글씨크기 조정
+ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
 
 ax.set_xticklabels(
                    labels
                   , fontsize=17
                   )
 
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.155)
+lg = ax.legend(bbox_to_anchor=(-0.01,-0.18)
           ,ncol=3  ,loc='lower left' ,fontsize=15
           )
 plt.text(-0.5, -12,  '골밀도 결과분류 기준', fontsize=22)
