@@ -19,3 +19,5 @@ Factsheet documents creation works
 20211206: Pancreas cyst, mass result distribution at Abdominal CT, MRI EXAM
 
 20211208: execution script format(*.ipynb -> *.py) and result export format change.
+
+20220412: The result distribution of all report formats has been modified.
