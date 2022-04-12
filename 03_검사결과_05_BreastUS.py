@@ -137,7 +137,7 @@ fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 rects1 = ax.bar(x,  value01, width,label='결절 의심',color='coral')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 유방초음파 결과 분포(2020년)\n\n',fontsize=30)
+ax.set_title('연령별 유방초음파 결절성 병변 결과 분포(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -172,52 +172,52 @@ plt.text(-0.3, -20, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_05_BreastUS_01유병률.png".format(workdir[:-5])
+plt.savefig("{}/03_04_BreastUS_01결절성병변유병률.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 #%%
-GRP2 = "Category"
-# rsltcd_GRP2 = ['C0','C1','C2','C3','C4A','C4B','C4C','C5','C6']
+# GRP2 = "Category"
+# # rsltcd_GRP2 = ['C0','C1','C2','C3','C4A','C4B','C4C','C5','C6']
 
-# def rslt_match(x):
-#     for i in rsltcd_GRP2:
-#         if i in x:
-#             return i
-#         else:
-#             return np.nan
+# # def rslt_match(x):
+# #     for i in rsltcd_GRP2:
+# #         if i in x:
+# #             return i
+# #         else:
+# #             return np.nan
         
-# data[GRP2] = data.loc[:,'RSLT_CD01':'RSLT_CD13'].apply(rslt_match)
-rsltcd01_2 = 'C0'
-rsltcd02_2 = 'C1'
-rsltcd03_2 = 'C2'
-# rsltcd04_2 = 'C3'
-# rsltcd05_2 = 'C4A'
-# rsltcd06_2 = 'C4B'
-# rsltcd07_2 = 'C4C'
-# rsltcd08_2 = 'C5'
-# rsltcd09_2 = 'C6'
-# data[GRP2] = (
-#     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd01_2)
-#     ).any(axis=1).astype(int)
-# data.loc[data[GRP2] == 1, GRP2] = 'Category C0'
-# data[GRP2] = (
-#     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd02_2)
-#     ).any(axis=1).astype(int)
-# data.loc[data[GRP2] == 1, GRP2] = 'Category 1'
-# data[GRP2] = (
-#     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd03_2)
-#     ).any(axis=1).astype(int)
-# data.loc[data[GRP2] == 1, GRP2] = 'Category 2'
-if ((data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd01_2).any(axis=1).astype(int))==1:
-    data.loc[GRP2] = 'Category C0'
-# elif (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd02_2).any(axis=1).astype(int) == 1:
-#     data[GRP2] = 'Category C1'
-# elif (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd03_2).any(axis=1).astype(int) == 1:
-#     data[GRP2] = 'Category C2'
+# # data[GRP2] = data.loc[:,'RSLT_CD01':'RSLT_CD13'].apply(rslt_match)
+# rsltcd01_2 = 'C0'
+# rsltcd02_2 = 'C1'
+# rsltcd03_2 = 'C2'
+# # rsltcd04_2 = 'C3'
+# # rsltcd05_2 = 'C4A'
+# # rsltcd06_2 = 'C4B'
+# # rsltcd07_2 = 'C4C'
+# # rsltcd08_2 = 'C5'
+# # rsltcd09_2 = 'C6'
+# # data[GRP2] = (
+# #     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd01_2)
+# #     ).any(axis=1).astype(int)
+# # data.loc[data[GRP2] == 1, GRP2] = 'Category C0'
+# # data[GRP2] = (
+# #     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd02_2)
+# #     ).any(axis=1).astype(int)
+# # data.loc[data[GRP2] == 1, GRP2] = 'Category 1'
+# # data[GRP2] = (
+# #     (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd03_2)
+# #     ).any(axis=1).astype(int)
+# # data.loc[data[GRP2] == 1, GRP2] = 'Category 2'
+# if ((data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd01_2).any(axis=1).astype(int))==1:
+#     data.loc[GRP2] = 'Category C0'
+# # elif (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd02_2).any(axis=1).astype(int) == 1:
+# #     data[GRP2] = 'Category C1'
+# # elif (data.loc[:,'RSLT_CD01':'RSLT_CD13'] == rsltcd03_2).any(axis=1).astype(int) == 1:
+# #     data[GRP2] = 'Category C2'
 
-data
-#%%
-data_f
+# data
+# #%%
+# data_f
 #%%
 GRP2 = "Category"
 data_f[GRP2] = ""
@@ -319,15 +319,15 @@ value07 = RS1190_per_grp2.iloc[6,:-1].to_list()
 value08 = RS1190_per_grp2.iloc[7,:-1].to_list()
 value09 = RS1190_per_grp2.iloc[8,:-1].to_list()
 
-label01 = rslttext[0]
-label02 = rslttext[1]
-label03 = rslttext[2]
-label04 = rslttext[3]
-label05 = rslttext[4]
-label06 = rslttext[5]
-label07 = rslttext[6]
-label08 = rslttext[7]
-label09 = rslttext[8]
+label01 = rslttext[0] + ': Incomplete'
+label02 = rslttext[1] + ': Negative'
+label03 = rslttext[2] + ': Benign'
+label04 = rslttext[3] + ': Probably benign'
+label05 = rslttext[4] + ': Low suspicion'
+label06 = rslttext[5] + ': Intermediate suspicion'
+label07 = rslttext[6] + ': Moderate suspicion'
+label08 = rslttext[7] + ': Highly suggestive of malignancy'
+label09 = rslttext[8] + ': Known malignancy'
 
 
 width = 0.5       # the width of the bars: can also be len(x) sequence
@@ -363,7 +363,7 @@ rects9 = ax.bar(labels, value09, width, label=label09
                   ,bottom=[value01[i]+value02[i]+value03[i]+value04[i]+value05[i]+value06[i]+value07[i]+value08[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[0])
 
-ax.set_title('연령별 유방초음파 Category 분포(2020년, 여자)\n\n',fontsize=30)
+ax.set_title('연령별 유방초음파 결과 분포(BI-RADS)(2020년, 여자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -390,25 +390,22 @@ ax.bar_label(rects7, label_type='center',fontsize=16)
 ax.bar_label(rects8, label_type='center',fontsize=16)
 ax.bar_label(rects9, label_type='center',fontsize=16)
 
-plt.text(-0.5, -12,  '유방초음파 Category 분류 기준:', fontsize=22)
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.24)
-          ,ncol=4  ,loc='lower left' ,fontsize=15
+plt.text(-0.5, -12,  '유방초음파 결과 분류 기준:', fontsize=22)
+lg = ax.legend(bbox_to_anchor=(-0.01,-0.215)
+          ,ncol=3  ,loc='lower left' ,fontsize=12
           )
 plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_05_BreastUS_02BreastUScat.png".format(workdir[:-5])
+plt.savefig("{}/03_04_BreastUS_02BreastUScat.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 # %%
 # data merge, export
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
-    RS1190_agegrp_f.to_excel(writer,sheet_name="03_05_1nodule")
-    RS1190_agegrp_grp2.to_excel(writer,sheet_name="03_05_2category")
+    RS1190_agegrp_f.to_excel(writer,sheet_name="03_04_1nodule")
+    RS1190_agegrp_grp2.to_excel(writer,sheet_name="03_04_2category")
 
 # %%
-data_f.to_excel('{}/RS1190_CAT.xlsx'.format(workdir[:-5]),index=False)
-                
-#%%
-RS1190_agegrp_f
+
 # %%
