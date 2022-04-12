@@ -279,20 +279,27 @@ fig.subplots_adjust(wspace=0.1)
 
 # pie chart parameters
 ratios = data_pie
-labels = ['Calcification','No']
+pie_labels = ['Calcification','No\ncalcification']
 explode = [0.05, 0]
-colors = plt.get_cmap('Set2')(
-np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
-)
+colors = ['coral','lightgreen']
+# colors = plt.get_cmap('Set2')(
+# np.linspace(0.15, 0.85, np.array(data_pie).shape[0])
+# )
+
+def func(pct, allvals):
+    absolute = int(round(pct/100.*np.sum(allvals)))
+#     return "{:.1f}%\n({:,d})".format(pct, absolute) # %값(수치)로 표현하고 싶을 때, 1000 단위 마다 (,)표시하기
+    return "{:,d}\n({:.1f}%)".format(absolute, pct) # 수치(%값)로 표현하고 싶을 때1000 단위미다 ','표시
 
 # rotate so that first wedge is split by the x-axis
-ax1.pie(ratios, autopct='%1.1f%%', startangle=-105,
-labels=labels, explode=explode, colors=colors
-,textprops=dict(color="black",fontsize=25)
+ax1.pie(ratios, autopct=lambda pct: func(pct, ratios)
+        , startangle=-105, labels=pie_labels, explode=explode, colors=colors
+,textprops=dict(color="black",fontsize=22)
+,shadow=True
 )
 
 # bar chart parameters
-xpos = 0
+xpos = 0.05
 bottom = 0
 ratios = data_bar_per #bar chart using category percentile
 width = .2
@@ -302,7 +309,7 @@ np.linspace(0.15, 0.85, np.array(data_bar_per).shape[0])
 
 for j in range(len(ratios)):
     height = ratios[j]
-    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j])
+    ax2.bar(xpos, height, width, bottom=bottom, color=colors[j],alpha=0.7)
     ypos = bottom + ax2.patches[j].get_height() / 2
     bottom += height
     ax2.text(xpos, ypos, "%1.1f%%" % (ax2.patches[j].get_height() * 100),
@@ -346,7 +353,7 @@ con.set_linewidth(2)
 ax2.add_artist(con)
 
 # draw bottom connecting line
-x = r * np.cos(np.pi / 180 * theta1) + center[0]
+x = r * np.cos(np.pi / 180 * theta1) + center[0] 
 y = np.sin(np.pi / 180 * theta1) + center[1]
 con = ConnectionPatch(xyA=(- width / 2, 0), xyB=(x, y), coordsA="data",
 coordsB="data", axesA=ax2, axesB=ax1)
@@ -363,7 +370,7 @@ fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 
 # fig.tight_layout()
 
-plt.savefig("{}/03_01관상동맥칼슘화_00분포.png".format(workdir[:-5])
+plt.savefig("{}/03_03관상동맥칼슘화_00분포.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
  
@@ -390,18 +397,18 @@ width = 0.5       # the width of the bars: can also be len(x) sequence
 fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
 
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(labels, value01, width, label=label01
+rects1 = ax.bar(labels, value01, width, label=label01,alpha=0.85
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[5])
-rects2 = ax.bar(labels, value02, width, label=label02
+rects2 = ax.bar(labels, value02, width, label=label02,alpha=0.85
                   ,bottom=value01
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[4])
-rects3 = ax.bar(labels, value03, width, label=label03
+rects3 = ax.bar(labels, value03, width, label=label03,alpha=0.85
                   ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
-rects4 = ax.bar(labels, value04, width, label=label04
+rects4 = ax.bar(labels, value04, width, label=label04,alpha=0.85
                   ,bottom=[value01[i]+value02[i]+value03[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[1])
-rects5 = ax.bar(labels, value05, width, label=label05
+rects5 = ax.bar(labels, value05, width, label=label05,alpha=0.85
                   ,bottom=[value01[i]+value02[i]+value03[i]+value04[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[0])
 
@@ -438,7 +445,7 @@ plt.text(-0.3, -30, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_01관상동맥칼슘화_01남자분포.png".format(workdir[:-5])
+plt.savefig("{}/03_03관상동맥칼슘화_01남자분포.png".format(workdir[:-5])
             , dpi=175
             ,bbox_extra_artists=(lg,)
             # ,bbox_inches='tight'
@@ -513,7 +520,7 @@ plt.text(-0.3, -30, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_01관상동맥칼슘화_02여자분포.png".format(workdir[:-5])
+plt.savefig("{}/03_03관상동맥칼슘화_02여자분포.png".format(workdir[:-5])
             , dpi=175
             ,bbox_extra_artists=(lg,)
             # ,bbox_inches='tight'
@@ -525,5 +532,5 @@ plt.show()
 # data merge, export
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
-    cact_agegrp.to_excel(writer,sheet_name="03_01관상동맥칼슘화성별분포")
+    cact_agegrp.to_excel(writer,sheet_name="03_03관상동맥칼슘화성별분포")
 # %%
