@@ -290,73 +290,6 @@ Thyroid_agegrp_subt.columns = pd.MultiIndex.from_tuples(
 
 Thyroid_agegrp_subt
 
-#%%
-value01 = Thyroid_per_subt.iloc[0,:-1].to_list()
-value02 = Thyroid_per_subt.iloc[1,:-1].to_list()
-value03 = Thyroid_per_subt.iloc[2,:-1].to_list()
-value04 = Thyroid_per_subt.iloc[3,:-1].to_list()
-value05 = Thyroid_per_subt.iloc[4,:-1].to_list()
-
-label01 = rslttext[0]
-label02 = rslttext[1]
-label03 = rslttext[2]
-label04 = rslttext[3]
-label05 = rslttext[4]
-
-width = 0.5       # the width of the bars: can also be len(x) sequence
-
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
-
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(labels, value01, width, label=label01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[2])
-rects2 = ax.bar(labels, value02, width, label=label02
-                  ,bottom=value01
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[3])
-rects3 = ax.bar(labels, value03, width, label=label03
-                  ,bottom=[value01[i]+value02[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[4])
-rects4 = ax.bar(labels, value04, width, label=label04
-                  ,bottom=[value01[i]+value02[i]+value03[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[1])
-rects5 = ax.bar(labels, value05, width, label=label05
-                  ,bottom=[value01[i]+value02[i]+value03[i]+value04[i] for i in range(len(value01))]
-                  ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[0])
-
-ax.set_title('연령별 갑상선초음파 Category 분포(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-
-ax.set_xticklabels(
-                   labels
-                  , fontsize=17
-                  )
-
-# Label with label_type 'center' instead of the default 'edge'
-ax.bar_label(rects1, label_type='center',fontsize=16)
-ax.bar_label(rects2, label_type='center',fontsize=16)
-ax.bar_label(rects3, label_type='center',fontsize=16)
-ax.bar_label(rects4, label_type='center',fontsize=16)
-ax.bar_label(rects5, label_type='center',fontsize=16)
-
-plt.text(-0.5, -12,  '갑상선초음파 Category 분류 기준:', fontsize=22)
-lg = ax.legend(bbox_to_anchor=(-0.01,-0.24)
-          ,ncol=2  ,loc='lower left' ,fontsize=15
-          )
-plt.text(-0.3, -27, '          ', fontsize=17)
-
-fig.tight_layout()
-plt.savefig("{}/03_07_ThyroidUS_01cat_전체.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
 
 #%%
 value01 = Thyroid_per_m.iloc[0,:-1].to_list()
@@ -392,7 +325,7 @@ rects5 = ax.bar(labels, value05, width, label=label05
                   ,bottom=[value01[i]+value02[i]+value03[i]+value04[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[0])
 
-ax.set_title('연령별 갑상선초음파 Category 분포(2020년, 남자)\n\n',fontsize=30)
+ax.set_title('연령별 갑상선초음파 결과 분포(K-TIRADS)(2020년, 남자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -415,14 +348,14 @@ ax.bar_label(rects3, label_type='center',fontsize=16)
 ax.bar_label(rects4, label_type='center',fontsize=16)
 ax.bar_label(rects5, label_type='center',fontsize=16)
 
-plt.text(-0.5, -12,  '갑상선초음파 Category 분류 기준:', fontsize=22)
+plt.text(-0.5, -12,  '갑상선초음파 결과 분류 기준:', fontsize=22)
 lg = ax.legend(bbox_to_anchor=(-0.01,-0.24)
           ,ncol=2  ,loc='lower left' ,fontsize=15
           )
 plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_07_ThyroidUS_02cat_남자.png".format(workdir[:-5])
+plt.savefig("{}/03_01_ThyroidUS_02cat_남자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 
@@ -460,7 +393,7 @@ rects5 = ax.bar(labels, value05, width, label=label05
                   ,bottom=[value01[i]+value02[i]+value03[i]+value04[i] for i in range(len(value01))]
                   ,color=plt.get_cmap('RdYlBu')(np.linspace(0.15, 0.8,np.array(rslttext).shape[0]))[0])
 
-ax.set_title('연령별 갑상선초음파 Category 분포(2020년, 여자)\n\n',fontsize=30)
+ax.set_title('연령별 갑상선초음파 결과 분포(K-TIRADS)(2020년, 여자)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -483,19 +416,19 @@ ax.bar_label(rects3, label_type='center',fontsize=16)
 ax.bar_label(rects4, label_type='center',fontsize=16)
 ax.bar_label(rects5, label_type='center',fontsize=16)
 
-plt.text(-0.5, -12,  '갑상선초음파 Category 분류 기준:', fontsize=22)
+plt.text(-0.5, -12,  '갑상선초음파 결과 분류 기준:', fontsize=22)
 lg = ax.legend(bbox_to_anchor=(-0.01,-0.24)
           ,ncol=2  ,loc='lower left' ,fontsize=15
           )
 plt.text(-0.3, -27, '          ', fontsize=17)
 
 fig.tight_layout()
-plt.savefig("{}/03_07_ThyroidUS_03cat_여자.png".format(workdir[:-5])
+plt.savefig("{}/03_01_ThyroidUS_03cat_여자.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
 # %%
 with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
     # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
-    Thyroid_agegrp_subt.to_excel(writer,sheet_name="03_07_1Thy_C")
-    Thyroid_agegrp.to_excel(writer,sheet_name="03_07_2Thy_C_GENDER")
+    Thyroid_agegrp_subt.to_excel(writer,sheet_name="03_01_1Thy_C")
+    Thyroid_agegrp.to_excel(writer,sheet_name="03_01_2Thy_C_GENDER")
 # %%
