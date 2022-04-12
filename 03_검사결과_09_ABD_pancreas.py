@@ -415,234 +415,7 @@ ABD_P_CYST_agegrp_subt.columns = pd.MultiIndex.from_tuples(
 
 ABD_P_CYST_agegrp_subt
 
-# %%
-# PANCREAS MASS
-ABD_P_MASS_cnt_m = data_abdcm_m.pivot_table(
-                                    index=[GRP2,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
 
-ABD_P_MASS_cnt_m.columns = ABD_P_MASS_cnt_m.columns.droplevel()
-
-# ABD_P_MASS_cnt_m
-# each column total value percentile
-ABD_P_MASS_per_m = round(ABD_P_MASS_cnt_m.div(ABD_P_MASS_cnt_m.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_P_MASS_per_m
-
-ABD_P_MASS_agegrp_m = pd.DataFrame()
-
-for i in range(len(ABD_P_MASS_cnt_m.columns)):
-    if i == 0:
-        ABD_P_MASS_agegrp_m = pd.concat(
-                                [
-                                 ABD_P_MASS_cnt_m.iloc[:,i]
-                                ,ABD_P_MASS_per_m.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_P_MASS_agegrp_m = pd.concat(
-                                [
-                                 ABD_P_MASS_agegrp_m
-                                ,ABD_P_MASS_cnt_m.iloc[:,i]
-                                ,ABD_P_MASS_per_m.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-        
-# ABD_P_MASS_agegrp_m
-# %%
-ABD_P_MASS_cnt_f = data_abdcm_f.pivot_table(
-                                    index=[GRP2,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_P_MASS_cnt_f.columns = ABD_P_MASS_cnt_f.columns.droplevel()
-
-# ABD_P_MASS_cnt_f
-# each column total value percentile
-ABD_P_MASS_per_f = round(ABD_P_MASS_cnt_f.div(ABD_P_MASS_cnt_f.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_P_MASS_per_f
-
-ABD_P_MASS_agegrp_f = pd.DataFrame()
-
-for i in range(len(ABD_P_MASS_cnt_f.columns)):
-    if i == 0:
-        ABD_P_MASS_agegrp_f = pd.concat(
-                                [
-                                 ABD_P_MASS_cnt_f.iloc[:,i]
-                                ,ABD_P_MASS_per_f.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_P_MASS_agegrp_f = pd.concat(
-                                [
-                                 ABD_P_MASS_agegrp_f
-                                ,ABD_P_MASS_cnt_f.iloc[:,i]
-                                ,ABD_P_MASS_per_f.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-        
-# ABD_P_MASS_agegrp_f
-
-# %%
-# ABD_P_MASS_agegrp = pd.concat([ABD_P_MASS_agegrp_m.iloc[:-1,:], ABD_P_MASS_agegrp_f.iloc[:-1,:]],axis=0)
-ABD_P_MASS_agegrp = pd.concat([ABD_P_MASS_agegrp_m, ABD_P_MASS_agegrp_f],axis=0)
-ABD_P_MASS_agegrp = ABD_P_MASS_agegrp.sort_index()
-ABD_P_MASS_agegrp.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_P_MASS_agegrp
-
-# labels = ABD_P_MASS_per_m.columns[:-1].to_list()
-    
-# %%
-ABD_P_MASS_cnt_t = data_abdcm.pivot_table(
-                                    index=[GRP2]#,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_P_MASS_cnt_t.columns = ABD_P_MASS_cnt_t.columns.droplevel()
-
-# total value percentile
-ABD_P_MASS_per_t = round(ABD_P_MASS_cnt_t.div(ABD_P_MASS_cnt_t.iloc[-1,-1], axis=0).astype(float)*100,1)
-
-# ABD_P_MASS_per_t
-
-ABD_P_MASS_agegrp_t = pd.DataFrame()
-
-for i in range(len(ABD_P_MASS_cnt_t.columns)):
-    if i == 0:
-        ABD_P_MASS_agegrp_t = pd.concat(
-                                [
-                                 ABD_P_MASS_cnt_t.iloc[:,i]
-                                ,ABD_P_MASS_per_t.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_P_MASS_agegrp_t = pd.concat(
-                                [
-                                 ABD_P_MASS_agegrp_t
-                                ,ABD_P_MASS_cnt_t.iloc[:,i]
-                                ,ABD_P_MASS_per_t.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-
-ABD_P_MASS_agegrp_t.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_P_MASS_agegrp_t
-
-# %%
-ABD_P_MASS_cnt_subt = data_abdcm.pivot_table(
-                                     index=[GRP2]#,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_P_MASS_cnt_subt.columns = ABD_P_MASS_cnt_subt.columns.droplevel()
-
-# total value percentile
-# ABD_P_MASS_per_t = round(ABD_P_MASS_cnt_t.div(ABD_P_MASS_cnt_t.iloc[-1,-1], axis=0).astype(float)*100,1)
-# 211123 기준 변경
-ABD_P_MASS_per_subt = round(ABD_P_MASS_cnt_subt.div(ABD_P_MASS_cnt_subt.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_P_MASS_per_subt
-
-ABD_P_MASS_agegrp_subt = pd.DataFrame()
-
-for i in range(len(ABD_P_MASS_cnt_subt.columns)):
-    if i == 0:
-        ABD_P_MASS_agegrp_subt = pd.concat(
-                                [
-                                 ABD_P_MASS_cnt_subt.iloc[:,i]
-                                ,ABD_P_MASS_per_subt.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_P_MASS_agegrp_subt = pd.concat(
-                                [
-                                 ABD_P_MASS_agegrp_subt
-                                ,ABD_P_MASS_cnt_subt.iloc[:,i]
-                                ,ABD_P_MASS_per_subt.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-
-ABD_P_MASS_agegrp_subt.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_P_MASS_agegrp_subt
 # %%
 # 다른 검사 제외
 exmn_cd = 'RS10'
@@ -908,234 +681,7 @@ ABD_US_CYST_agegrp_subt.columns = pd.MultiIndex.from_tuples(
 
 # ABD_US_CYST_agegrp_subt
 
-# %%
-# PANCREAS MASS
-ABD_US_MASS_cnt_m = data_abdus_m.pivot_table(
-                                    index=[GRP_US2,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
 
-ABD_US_MASS_cnt_m.columns = ABD_US_MASS_cnt_m.columns.droplevel()
-
-# ABD_US_MASS_cnt_m
-# each column total value percentile
-ABD_US_MASS_per_m = round(ABD_US_MASS_cnt_m.div(ABD_US_MASS_cnt_m.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_US_MASS_per_m
-
-ABD_US_MASS_agegrp_m = pd.DataFrame()
-
-for i in range(len(ABD_US_MASS_cnt_m.columns)):
-    if i == 0:
-        ABD_US_MASS_agegrp_m = pd.concat(
-                                [
-                                 ABD_US_MASS_cnt_m.iloc[:,i]
-                                ,ABD_US_MASS_per_m.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_US_MASS_agegrp_m = pd.concat(
-                                [
-                                 ABD_US_MASS_agegrp_m
-                                ,ABD_US_MASS_cnt_m.iloc[:,i]
-                                ,ABD_US_MASS_per_m.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-        
-# ABD_US_MASS_agegrp_m
-# %%
-ABD_US_MASS_cnt_f = data_abdus_f.pivot_table(
-                                    index=[GRP_US2,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_US_MASS_cnt_f.columns = ABD_US_MASS_cnt_f.columns.droplevel()
-
-# ABD_US_MASS_cnt_f
-# each column total value percentile
-ABD_US_MASS_per_f = round(ABD_US_MASS_cnt_f.div(ABD_US_MASS_cnt_f.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_US_MASS_per_f
-
-ABD_US_MASS_agegrp_f = pd.DataFrame()
-
-for i in range(len(ABD_US_MASS_cnt_f.columns)):
-    if i == 0:
-        ABD_US_MASS_agegrp_f = pd.concat(
-                                [
-                                 ABD_US_MASS_cnt_f.iloc[:,i]
-                                ,ABD_US_MASS_per_f.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_US_MASS_agegrp_f = pd.concat(
-                                [
-                                 ABD_US_MASS_agegrp_f
-                                ,ABD_US_MASS_cnt_f.iloc[:,i]
-                                ,ABD_US_MASS_per_f.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-        
-# ABD_US_MASS_agegrp_f
-
-# %%
-# ABD_US_MASS_agegrp = pd.concat([ABD_US_MASS_agegrp_m.iloc[:-1,:], ABD_US_MASS_agegrp_f.iloc[:-1,:]],axis=0)
-ABD_US_MASS_agegrp = pd.concat([ABD_US_MASS_agegrp_m, ABD_US_MASS_agegrp_f],axis=0)
-ABD_US_MASS_agegrp = ABD_US_MASS_agegrp.sort_index()
-ABD_US_MASS_agegrp.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_US_MASS_agegrp
-
-# labels = ABD_US_MASS_per_m.columns[:-1].to_list()
-    
-# %%
-ABD_US_MASS_cnt_t = data_abdus.pivot_table(
-                                    index=[GRP_US2]#,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_US_MASS_cnt_t.columns = ABD_US_MASS_cnt_t.columns.droplevel()
-
-# total value percentile
-ABD_US_MASS_per_t = round(ABD_US_MASS_cnt_t.div(ABD_US_MASS_cnt_t.iloc[-1,-1], axis=0).astype(float)*100,1)
-
-# ABD_US_MASS_per_t
-
-ABD_US_MASS_agegrp_t = pd.DataFrame()
-
-for i in range(len(ABD_US_MASS_cnt_t.columns)):
-    if i == 0:
-        ABD_US_MASS_agegrp_t = pd.concat(
-                                [
-                                 ABD_US_MASS_cnt_t.iloc[:,i]
-                                ,ABD_US_MASS_per_t.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_US_MASS_agegrp_t = pd.concat(
-                                [
-                                 ABD_US_MASS_agegrp_t
-                                ,ABD_US_MASS_cnt_t.iloc[:,i]
-                                ,ABD_US_MASS_per_t.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-
-ABD_US_MASS_agegrp_t.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_US_MASS_agegrp_t
-
-# %%
-ABD_US_MASS_cnt_subt = data_abdus.pivot_table(
-                                     index=[GRP_US2]#,'GENDER']
-                                    ,columns=['AGEGRP']
-                                    ,values=['ID']
-                                    ,aggfunc='count'
-                                    ,margins=True
-                                    ,fill_value=0
-                                    )
-
-ABD_US_MASS_cnt_subt.columns = ABD_US_MASS_cnt_subt.columns.droplevel()
-
-# total value percentile
-# ABD_US_MASS_per_t = round(ABD_US_MASS_cnt_t.div(ABD_US_MASS_cnt_t.iloc[-1,-1], axis=0).astype(float)*100,1)
-# 211123 기준 변경
-ABD_US_MASS_per_subt = round(ABD_US_MASS_cnt_subt.div(ABD_US_MASS_cnt_subt.iloc[-1], axis=1).astype(float)*100,1)
-
-# ABD_US_MASS_per_subt
-
-ABD_US_MASS_agegrp_subt = pd.DataFrame()
-
-for i in range(len(ABD_US_MASS_cnt_subt.columns)):
-    if i == 0:
-        ABD_US_MASS_agegrp_subt = pd.concat(
-                                [
-                                 ABD_US_MASS_cnt_subt.iloc[:,i]
-                                ,ABD_US_MASS_per_subt.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-    else:
-        ABD_US_MASS_agegrp_subt = pd.concat(
-                                [
-                                 ABD_US_MASS_agegrp_subt
-                                ,ABD_US_MASS_cnt_subt.iloc[:,i]
-                                ,ABD_US_MASS_per_subt.iloc[:,i]
-                                ]
-                            ,axis=1
-        )
-
-ABD_US_MASS_agegrp_subt.columns = pd.MultiIndex.from_tuples(
-        (
-         ('29세 이하', 'N')
-        ,('29세 이하', '%')
-        ,('30~39세', 'N')
-        ,('30~39세', '%')
-        ,('40~49세', 'N')
-        ,('40~49세', '%')
-        ,('50~59세', 'N')
-        ,('50~59세', '%')
-        ,('60~69세', 'N')
-        ,('60~69세', '%')
-        ,('70세 이상', 'N')
-        ,('70세 이상', '%')
-        ,('전체', 'N')
-        ,('전체', '%')
-        )
-    )
-
-# ABD_US_MASS_agegrp_subt
 
 #%%
 # ABD_P_CYST_agegrp
@@ -1163,10 +709,10 @@ fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이�
 
 fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
 rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
-rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
+rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('YlGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 췌장낭종 유병률(2020년)\n\n',fontsize=30)
+ax.set_title('검사방법에 따른 췌장낭종 유병률 차이(2020년)\n\n',fontsize=30)
 ax.set_ylabel(
                 '(단위: %)' # 표시값
                  ,labelpad=-70 # 여백값 설정
@@ -1203,65 +749,63 @@ plt.text(-0.3, -8, '          ', fontsize=17)
 
 fig.tight_layout()
 
-plt.savefig("{}/03_09_01췌장낭종유병률.png".format(workdir[:-5])
+plt.savefig("{}/03_07_01췌장낭종유병률.png".format(workdir[:-5])
             , dpi=175 #72의 배수 ,edgecolor='black'
            )
+
 # %%
-value01 = ABD_P_MASS_per_subt.iloc[0,:-1]
-value02 = ABD_US_MASS_per_subt.iloc[0,:-1]
+ABD_P_CYST_agegrp_subt
+# %%
+ABD_US_CYST_agegrp_subt
+# %%
+data
+# %%
+# 각 검사방법의 CYST 연령별 건수 CONCAT
+rslt_CYST_grp_sub = pd.concat(
+                     [
+                      ABD_P_CYST_agegrp_subt.iloc[0,:-2]
+                     ,ABD_US_CYST_agegrp_subt.iloc[0,:-2]
+                     ]
+                    ,axis=1
+                    )
 
-label01 = '복부CT/MRI'
-label02 = '복부초음파'
+rslt_CYST_grp_sub
 
-x = np.arange(len(labels))  # the label locations # all 값이 list에는 포함되지 않았기 때문임.
-width = 0.35  # the width of the bars
+#%%
+# 각 검사 전체건수 CONCAT
+rslt_CYST_grp_t = pd.concat(
+                     [
+                      ABD_P_CYST_agegrp_subt.iloc[-1,-2:]
+                     ,ABD_US_CYST_agegrp_subt.iloc[-1,-2:]
+                     ]
+                    ,axis=1
+                    )
 
-# fig, ax = plt.subplots()
-fig, ax = plt.subplots(figsize=(12, 15),linewidth=2) # 캔버스 배경 사이즈 설정
+rslt_CYST_grp_t.columns= ['01_Pancreatic_Cyst','01_cyst']
 
-fig.set_facecolor('whitesmoke') ## 캔버스 배경색 설정
-rects1 = ax.bar(x - 0.2, value01, width, label=label01,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[2])
-rects2 = ax.bar(x + 0.2, value02, width, label=label02,color=plt.get_cmap('PuBuGn')(np.linspace(0.15, 0.8,np.array(labels).shape[0]))[3])
+rslt_CYST_grp_t
+#%%
+# 각 검사방법의 CYST 연령별 건수 + 각 검사 전체건수
+rslt_CYST_grp = pd.concat(
+    [
+     rslt_CYST_grp_sub
+    ,rslt_CYST_grp_t
+    ]
+    ,axis=0
+)
 
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_title('연령별 췌장종괴 유병률(2020년)\n\n',fontsize=30)
-ax.set_ylabel(
-                '(단위: %)' # 표시값
-                 ,labelpad=-70 # 여백값 설정
-                ,fontsize=20 # 글씨크기 설정
-                ,rotation=0 # 회전값 조정
-#                 ,ha='center' # 위치조정
-                ,loc='top' # 위치조정, ha와 동시에 사용은 불가함.
-            )
-ax.yaxis.set_tick_params(labelsize=15) # y축 표시값 글씨크기 조정
-ax.set_xticks(x)
-ax.set_xticklabels(
-                   labels[0:len(labels)] # all 값이 list에는 포함되지 않았기 때문임.
-                  , fontsize=17
-                  )
-ax.legend(fontsize=17)
+rslt_CYST_grp.columns= ['복부CT/MRI','복부초음파']
 
-# bar위에 값 label 표시
-def autolabel(rects):
-    """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(height, 
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 8),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom'
-                   ,fontsize=18
-                   )
+rslt_CYST_grp = rslt_CYST_grp.T
 
-autolabel(rects1)
-autolabel(rects2)
+rslt_CYST_grp
 
-plt.text(-0.3, -0.215, '          ', fontsize=17)
 
-fig.tight_layout()
-
-plt.savefig("{}/03_09_02췌장종괴유병률.png".format(workdir[:-5])
-            , dpi=175 #72의 배수 ,edgecolor='black'
-           )
+# rslt_MASS_grp
+# %%
+with pd.ExcelWriter('{}/FACTSHEET_2020_TABLE.xlsx'.format(workdir[:-5]), mode='a',engine='openpyxl') as writer:
+    # cact_agegrp_t.to_excel(writer,sheet_name="03_01이상지질혈증유병율")
+    # liquiprep_agegrp_subt.to_excel(writer,sheet_name="03_09_1액상자궁세포")
+    rslt_CYST_grp.to_excel(writer,sheet_name="03_07_1복부검사_CYST")
+    # rslt_MASS_grp.to_excel(writer,sheet_name="03_07_1복부검사_MASS")
 # %%
