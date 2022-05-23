@@ -57,7 +57,7 @@ for exmn_cd in tt.index:
     globals()['data_{}'.format(exmn_cd)] = data_01[(data_01['EXMN_CD']==exmn_cd)]
     if exmn_cd == 'RC2020':
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_CYST')
-                 ] = (
+                 ] = (# 해당 검사에 CYST 결과에 대한 결과코드가 없음.
                      globals()['data_{}'.format(exmn_cd)].loc[:,'RSLT_CD01':'RSLT_CD13'] == 'YYYYYY'
                      ).any(axis=1).astype(int)
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_MASS')
@@ -66,7 +66,7 @@ for exmn_cd in tt.index:
                      ).any(axis=1).astype(int)
     elif exmn_cd == 'RC2030':
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_CYST')
-                 ] = (
+                 ] = (# 해당 검사에 CYST 결과에 대한 결과코드가 없음.
                      globals()['data_{}'.format(exmn_cd)].loc[:,'RSLT_CD01':'RSLT_CD13'] == 'YYYYYY'
                      ).any(axis=1).astype(int)
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_MASS')
@@ -93,7 +93,7 @@ for exmn_cd in tt.index:
                      ).any(axis=1).astype(int)
     elif exmn_cd == 'RC2060':
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_CYST')
-                 ] = (
+                 ] = (# 해당 검사에 CYST 결과에 대한 결과코드가 없음.
                      globals()['data_{}'.format(exmn_cd)].loc[:,'RSLT_CD01':'RSLT_CD13'] == 'YYYYYY'
                      ).any(axis=1).astype(int)
         globals()['data_{}'.format(exmn_cd)]['{}_YN'.format('PAN_MASS')
